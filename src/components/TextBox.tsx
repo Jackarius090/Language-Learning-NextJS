@@ -2,6 +2,7 @@
 import { Textarea } from "./ui/textarea";
 import { useState, useRef } from "react";
 import { translateText } from "@/app/actions/translate";
+import { createEntry } from "@/db/insertWord";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -18,6 +19,10 @@ export default function TextBox() {
       setHighlightedText(selectedText);
       const translation = await translate(selectedText);
       setTranslatedText(translation);
+      await createEntry({
+        source_word: selectedText,
+        translated_word: translation,
+      });
     }
   };
 
