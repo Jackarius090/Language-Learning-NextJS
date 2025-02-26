@@ -42,13 +42,15 @@ export default function TextBox() {
 
   return (
     <>
-      <p>Selected Text: {highlightedText}</p>
       <Textarea
         ref={textareaRef}
         placeholder="Add text here... Try adding a sample text from the menu above or copy in your own text"
         onMouseUp={handleSelection}
       />
-      <p>{translatedText}</p>
+      <div className="flex flex-col gap-3">
+        <span className="text-nowrap">Selected Text: {highlightedText}</span>
+        <span className="text-nowrap">Translated text: {translatedText}</span>
+      </div>
     </>
   );
 }

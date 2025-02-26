@@ -1,0 +1,1 @@
+ALTER TABLE "dictionary" ADD CONSTRAINT "dictionary_source_word_unique" UNIQUE("source_word");

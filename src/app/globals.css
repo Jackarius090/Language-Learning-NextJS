@@ -95,3 +95,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+#toggleSidebar {
+  height: 40px;
+  width: 40px;
+  padding: 5px;
+}

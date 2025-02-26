@@ -19,8 +19,15 @@ export default async function getData() {
 
 // Function to add a new entry to the dictionary
 export async function addDictionaryEntry(entry: InsertEntry) {
+  if (entry.source_word === "")
+    return "Entry not added because empty source_word";
   try {
-    const result = await db.insert(dictionary).values(entry).returning();
+    const result = await db
+      .insert(dictionary)
+      .values(entry)
+      .onConflictDoNothing({ target: dictionary.source_word })
+      .returning();
+
     return { success: true, data: result[0] };
   } catch (error) {
     console.error("Error adding dictionary entry:", error);

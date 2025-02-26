@@ -6,18 +6,18 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import WordList from "./WordList";
+import getData from "@/db/dbActions";
 
+export async function DictionarySideBar() {
+  const words = await getData();
+  console.log("Words from DB:", words);
 
-
-export function DictionarySideBar() {
   return (
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup />
-        <div className="ml-6 h-max">
-          <WordList />
-        </div>
+        <WordList words={words} />
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter />
