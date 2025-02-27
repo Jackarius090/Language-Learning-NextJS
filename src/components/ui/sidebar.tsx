@@ -264,8 +264,8 @@ Sidebar.displayName = "Sidebar";
 const SidebarTrigger = ({ ...props }) => {
   const { toggleSidebar } = useSidebar();
   return (
-    <div>
-      <div className="flex items-center m-2">
+    <div className="w-20">
+      <div className="flex items-center m-2 relative z-10 overflow-visible">
         <Button
           id="toggleSidebar"
           data-sidebar="trigger"
@@ -273,10 +273,10 @@ const SidebarTrigger = ({ ...props }) => {
           onClick={toggleSidebar}
           {...props}
         >
-          <PanelLeft id="toggleSidebar" />
+          <PanelLeft id="iconButton" />
           <span className="sr-only">Toggle Dictionary</span>
         </Button>
-        <label htmlFor="toggleSidebar" className="text-nowrap">
+        <label htmlFor="toggleSidebar" className="text-nowrap relative z-20">
           Toggle Dictionary
         </label>
       </div>

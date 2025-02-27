@@ -20,10 +20,11 @@ export default function WordList({ words }: { words: Word[] }) {
     const searchTerm = e.target.value;
     setSearchItem(searchTerm);
 
-    const filteredItems = words.filter((word) =>
-      word.source_word.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredItems = words.filter(
+      (word) =>
+        word.source_word.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        word.translated_word.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
     setFilteredWords(filteredItems);
   };
 

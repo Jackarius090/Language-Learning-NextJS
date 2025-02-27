@@ -96,8 +96,8 @@ body {
   }
 }
 
-#toggleSidebar {
-  height: 40px;
-  width: 40px;
+#iconButton {
+  height: 30px;
+  width: 30px;
   padding: 5px;
 }
