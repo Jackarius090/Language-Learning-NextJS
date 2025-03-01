@@ -5,6 +5,7 @@ import { translateText } from "@/app/actions/translate";
 import { addDictionaryEntry } from "../db/dbActions";
 import { danishText } from "../../public/sample_texts/danishText";
 import { Button } from "./ui/button";
+import ChatGPT from "./ChatGPT";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -67,6 +68,9 @@ export default function TextBox() {
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2">
           <span>Selected Text: {highlightedText}</span>
           <span>Translated text: {translatedText}</span>
+          <div>
+            <ChatGPT highlightedText={highlightedText} />
+          </div>
         </div>
       </div>
     </div>
