@@ -11,7 +11,7 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `Return three example sentences using this word: ${highlightedText}`,
+          prompt: `Return three example sentences using this word: ${highlightedText}. The sentences should be in the same language as the word. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
         }),
       });
 
@@ -20,7 +20,10 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
       }
 
       const data = await res.json();
-      setResponse(data.choices?.[0]?.message?.content || "No response");
+      const object = JSON.parse(data.choices[0].message.content);
+      // Assuming the response is { sentences: ["sentence1", "sentence2", "sentence3"] }
+      setResponse(object.sentences || "No sentences found.");
+      console.log(response);
     } catch (error) {
       console.error(error instanceof Error ? error.message : "Unknown error");
       setResponse("Error fetching response");
@@ -34,7 +37,9 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
           Get example sentences
         </button>
       </form>
-      <p className="mt-4">{response}</p>
+      <pre className="mt-4 whitespace-pre-wrap">{response[0]}</pre>
+      <pre className="mt-4 whitespace-pre-wrap">{response[1]}</pre>
+      <pre className="mt-4 whitespace-pre-wrap">{response[2]}</pre>
     </section>
   );
 }
