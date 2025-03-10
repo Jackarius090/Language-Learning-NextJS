@@ -265,7 +265,7 @@ const SidebarTrigger = ({ ...props }) => {
   const { toggleSidebar } = useSidebar();
   return (
     <div className="w-20">
-      <div className="flex items-center m-2 relative z-10 overflow-visible">
+      <div className="flex items-center m-2 mt-4 relative z-10 overflow-visible">
         <Button
           id="toggleSidebar"
           data-sidebar="trigger"

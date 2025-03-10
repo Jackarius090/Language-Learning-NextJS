@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider>
+          <SidebarProvider defaultOpen={false}>
             <DictionarySideBar />
             <SidebarTrigger />
             {children}

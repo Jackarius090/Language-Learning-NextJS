@@ -1,5 +1,6 @@
 "use client";
 import { useState, FormEvent } from "react";
+import { Button } from "./ui/button";
 
 export default function Home({ highlightedText }: { highlightedText: string }) {
   const [response, setResponse] = useState<string>("");
@@ -21,7 +22,6 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
 
       const data = await res.json();
       const object = JSON.parse(data.choices[0].message.content);
-      // Assuming the response is { sentences: ["sentence1", "sentence2", "sentence3"] }
       setResponse(object.sentences || "No sentences found.");
       console.log(response);
     } catch (error) {
@@ -31,15 +31,14 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
   };
 
   return (
-    <section className="p-4">
+    <section className="py-4">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Get example sentences
-        </button>
+        <Button variant="outline">Get example sentences</Button>
       </form>
-      <pre className="mt-4 whitespace-pre-wrap">{response[0]}</pre>
-      <pre className="mt-4 whitespace-pre-wrap">{response[1]}</pre>
-      <pre className="mt-4 whitespace-pre-wrap">{response[2]}</pre>
+      <h1 className="mt-3">Example sentences:</h1>
+      <div className="mt-4">1. {response[0]}</div>
+      <div className="mt-4">2. {response[2]}</div>
+      <div className="mt-4">3. {response[1]}</div>
     </section>
   );
 }
