@@ -2,7 +2,13 @@
 import { useState, FormEvent } from "react";
 import { Button } from "./ui/button";
 
-export default function Home({ highlightedText }: { highlightedText: string }) {
+export default function Home({
+  highlightedText,
+  language,
+}: {
+  highlightedText: string;
+  language: string;
+}) {
   const [response, setResponse] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -12,7 +18,7 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `Return three example sentences using this word: ${highlightedText}. The sentences should be in the same language as the word. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
+          prompt: `Return three example sentences using this word: ${highlightedText}. The sentences should be in this language: ${language}. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
         }),
       });
 
@@ -23,7 +29,6 @@ export default function Home({ highlightedText }: { highlightedText: string }) {
       const data = await res.json();
       const object = JSON.parse(data.choices[0].message.content);
       setResponse(object.sentences || "No sentences found.");
-      console.log(response);
     } catch (error) {
       console.error(error instanceof Error ? error.message : "Unknown error");
       setResponse("Error fetching response");

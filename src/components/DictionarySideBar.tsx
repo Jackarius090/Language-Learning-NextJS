@@ -10,7 +10,6 @@ import getData from "@/db/dbActions";
 
 export async function DictionarySideBar() {
   const words = await getData();
-  console.log("Words from DB:", words);
 
   return (
     <Sidebar>

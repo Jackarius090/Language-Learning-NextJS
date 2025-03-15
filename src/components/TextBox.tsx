@@ -2,6 +2,7 @@
 import { Textarea } from "./ui/textarea";
 import { useState, useRef } from "react";
 import { translateText } from "@/app/actions/translate";
+import { findLanguage } from "@/app/actions/findLanguage";
 import { addDictionaryEntry } from "../db/dbActions";
 import { danishText } from "../../public/sample_texts/danishText";
 import { Button } from "./ui/button";
@@ -11,10 +12,10 @@ export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [textAreaText, setTextAreaText] = useState("");
+  const [language, setLanguage] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   async function newEntry(sw: string, tw: string) {
-    // Adding a new entry
     const newEntry = {
       source_word: sw,
       translated_word: tw,
@@ -22,8 +23,7 @@ export default function TextBox() {
       target_language: "English",
     };
 
-    const result = await addDictionaryEntry(newEntry);
-    console.log(result);
+    await addDictionaryEntry(newEntry);
   }
 
   const handleSelection = async () => {
@@ -34,26 +34,49 @@ export default function TextBox() {
         textarea.selectionEnd
       );
       setHighlightedText(selectedText);
-      const translation = await translate(selectedText);
+      const translation = await translate(selectedText, language);
       setTranslatedText(translation);
       await newEntry(selectedText, translation);
     }
   };
 
-  async function translate(text: string) {
-    return await translateText(text);
+  async function translate(text: string, language: string) {
+    return await translateText(text, language);
+  }
+
+  async function detectLanguage(text: string) {
+    const words = text.split(" ");
+    const firstTenWords = words.slice(0, 10);
+    const firstTenWordsString = firstTenWords.join(" ");
+    const data = await findLanguage(firstTenWordsString);
+    const language = data.data.detections[0][0].language;
+    setLanguage(language);
+  }
+
+  function onChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setTextAreaText(e.target.value);
+    detectLanguage(e.target.value);
   }
 
   return (
     <div className="w-full">
       <Button
-        className="mb-3"
+        className="m-3"
         onClick={() => {
           setTextAreaText(danishText);
         }}
         variant="outline"
       >
         Add Danish Text
+      </Button>
+      <Button
+        className="m-3"
+        onClick={() => {
+          setTextAreaText("");
+        }}
+        variant="outline"
+      >
+        Clear text area
       </Button>
       <div className="flex gap-8 px-15">
         <Textarea
@@ -63,13 +86,14 @@ export default function TextBox() {
           onMouseUp={handleSelection}
           rows={20}
           value={textAreaText}
-          onChange={(e) => setTextAreaText(e.target.value)}
+          onChange={onChange}
         />
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2">
           <span>Selected Text: {highlightedText}</span>
           <span>Translated text: {translatedText}</span>
+          <span>language: {language}</span>
           <div>
-            <ChatGPT highlightedText={highlightedText} />
+            <ChatGPT language={language} highlightedText={highlightedText} />
           </div>
         </div>
       </div>

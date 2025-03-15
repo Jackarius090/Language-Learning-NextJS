@@ -1,10 +1,10 @@
 "use server";
 
-export async function translateText(text: string, language: string) {
+export async function findLanguage(text: string) {
   const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
 
   const res = await fetch(
-    `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
+    `https://translation.googleapis.com/language/translate/v2/detect?key=${apiKey}`,
     {
       method: "POST",
       headers: {
@@ -13,17 +13,15 @@ export async function translateText(text: string, language: string) {
       },
       body: JSON.stringify({
         q: text,
-        target: "en",
-        source: language,
       }),
     }
   );
 
   if (!res.ok) {
     const errorDetails = await res.text();
-    console.error("Translation error:", errorDetails);
-    throw new Error("Failed to translate");
+    console.error("Detect language error:", errorDetails);
+    throw new Error("Failed to detect language");
   }
   const data = await res.json();
-  return data.data.translations[0].translatedText;
+  return data;
 }
