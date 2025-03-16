@@ -11,6 +11,9 @@ export default function Home({
 }) {
   const [response, setResponse] = useState<string>("");
 
+  const prompt = `Return three example sentences using this word: ${highlightedText}. The sentences should be in this language (using ISO 639 language codes): ${language}. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`;
+  console.log(prompt);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -18,7 +21,7 @@ export default function Home({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: `Return three example sentences using this word: ${highlightedText}. The sentences should be in this language: ${language}. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
+          prompt: prompt,
         }),
       });
 

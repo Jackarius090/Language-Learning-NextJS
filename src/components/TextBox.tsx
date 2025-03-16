@@ -22,7 +22,6 @@ export default function TextBox() {
       source_language: "Danish",
       target_language: "English",
     };
-
     await addDictionaryEntry(newEntry);
   }
 
@@ -50,6 +49,7 @@ export default function TextBox() {
     const firstTenWordsString = firstTenWords.join(" ");
     const data = await findLanguage(firstTenWordsString);
     const language = data.data.detections[0][0].language;
+    console.log(language);
     setLanguage(language);
   }
 
