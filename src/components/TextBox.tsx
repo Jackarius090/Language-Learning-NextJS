@@ -33,22 +33,17 @@ export default function TextBox() {
         textarea.selectionEnd
       );
       setHighlightedText(selectedText);
-      const translation = await translate(selectedText, language);
+      const translation = await translateText(selectedText, language);
       setTranslatedText(translation);
       await newEntry(selectedText, translation);
     }
   };
 
-  async function translate(text: string, language: string) {
-    return await translateText(text, language);
-  }
-
   async function detectLanguage(text: string) {
     const words = text.split(" ");
     const firstTenWords = words.slice(0, 10);
     const firstTenWordsString = firstTenWords.join(" ");
-    const data = await findLanguage(firstTenWordsString);
-    const language = data.data.detections[0][0].language;
+    const language = await findLanguage(firstTenWordsString);
     console.log(language);
     setLanguage(language);
   }
@@ -58,24 +53,22 @@ export default function TextBox() {
     detectLanguage(e.target.value);
   }
 
+  function handleDanishText() {
+    setTextAreaText(danishText);
+    detectLanguage(danishText);
+  }
+
+  function handleClearText() {
+    setTextAreaText("");
+    setLanguage("");
+  }
+
   return (
     <div className="w-full">
-      <Button
-        className="m-3"
-        onClick={() => {
-          setTextAreaText(danishText);
-        }}
-        variant="outline"
-      >
+      <Button className="m-3" onClick={handleDanishText} variant="outline">
         Add Danish Text
       </Button>
-      <Button
-        className="m-3"
-        onClick={() => {
-          setTextAreaText("");
-        }}
-        variant="outline"
-      >
+      <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
       <div className="flex gap-8 px-15">

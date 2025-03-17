@@ -23,5 +23,5 @@ export async function findLanguage(text: string) {
     throw new Error("Failed to detect language");
   }
   const data = await res.json();
-  return data;
+  return data.data.detections[0][0].language;
 }
