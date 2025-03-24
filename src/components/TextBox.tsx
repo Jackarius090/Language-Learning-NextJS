@@ -71,7 +71,7 @@ export default function TextBox() {
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
-      <div className="flex gap-8 px-15">
+      <div className="flex gap-8">
         <Textarea
           className="w-9/12 border-2"
           ref={textareaRef}
@@ -81,7 +81,7 @@ export default function TextBox() {
           value={textAreaText}
           onChange={onChange}
         />
-        <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2">
+        <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
           <span>Selected Text: {highlightedText}</span>
           <span>Translated text: {translatedText}</span>
           <span>language: {language}</span>
