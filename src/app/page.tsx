@@ -4,6 +4,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DictionarySideBar } from "@/components/DictionarySideBar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
 export default function Home() {
   return (
     <>
