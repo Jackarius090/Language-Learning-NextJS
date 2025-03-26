@@ -9,7 +9,7 @@ import getSession from "./actions/getSession";
 import Image from "next/image";
 
 export default async function Home() {
-  const session = getSession();
+  const session = await getSession();
   console.log(session);
   const image = session?.user?.image;
 
