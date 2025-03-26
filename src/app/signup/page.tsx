@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { login } from "@/lib/actions/auth";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -78,9 +77,6 @@ export default function SignUpForm() {
           <Button type="submit">Submit</Button>
         </form>
       </Form>
-      <div>
-        <Button onClick={login}>Sign in with github</Button>
-      </div>
     </div>
   );
 }
