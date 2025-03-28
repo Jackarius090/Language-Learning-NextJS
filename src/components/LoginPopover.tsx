@@ -1,15 +1,12 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent } from "@/components/ui/popover";
+import { LoginPopoverTrigger } from "./LoginPopoverTrigger";
 import { Button } from "./ui/button";
 import { login } from "@/lib/actions/auth";
 
 export const LoginPopover = () => {
   return (
     <Popover>
-      <PopoverTrigger>login </PopoverTrigger>
+      <LoginPopoverTrigger>login </LoginPopoverTrigger>
       <PopoverContent side="bottom" className="PopoverContent">
         <div>
           <Button variant="outline" onClick={login}>
