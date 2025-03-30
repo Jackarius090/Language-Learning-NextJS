@@ -8,6 +8,7 @@ import { LoginPopover } from "@/components/LoginPopover";
 import getSession from "./actions/getSession";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
+import { logout } from "@/lib/actions/auth";
 
 export default async function Home() {
   const session = await getSession();
@@ -25,19 +26,29 @@ export default async function Home() {
               Language Learning
             </h1>
             <div className="flex gap-8 justify-center items-center">
-              {" "}
-              <Button variant="outline">
-                <Link href="/signup">Signup</Link>
-              </Button>
-              <LoginPopover />
+              {!session && (
+                <div className="flex gap-8 justify-center items-center">
+                  <Button variant="outline">
+                    <Link href="/signup">Signup</Link>
+                  </Button>
+                  <LoginPopover />
+                </div>
+              )}
+              {session && (
+                <Button variant="outline" onClick={logout}>
+                  logout
+                </Button>
+              )}
               <InfoPopover />
-              <Image
-                className="rounded-md"
-                src={image || "/default-image.png"}
-                alt="User profile image"
-                width={40}
-                height={40}
-              />
+              {image && (
+                <Image
+                  className="rounded-md"
+                  src={image || "/default-image.png"}
+                  alt="User profile image"
+                  width={40}
+                  height={40}
+                />
+              )}
               <ModeToggle />
             </div>
           </span>
