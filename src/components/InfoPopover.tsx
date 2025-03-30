@@ -12,11 +12,13 @@ export const InfoPopover = () => {
         <Info />
       </PopoverTrigger>
       <PopoverContent side="bottom" className="PopoverContent">
-        This is my language learning app. You can paste in any foreign text and
-        then highlight a word you do not understand. A translation will then be
-        given on the right. You can then ask for some example sentences using
-        the word. Any new word that is translated is then added to the
-        dictionary which can be toggled in the top right corner.
+        This language learning app helps you translate and understand foreign
+        text effortlessly. Simply paste in any text, highlight a word you don’t
+        recognize, and instantly receive a translation on the right. You can
+        also request example sentences to see the word in context. Every new
+        word you translate is automatically added to your personal dictionary,
+        which you can access anytime by toggling the dictionary view in the top
+        left corner.
       </PopoverContent>
     </Popover>
   );

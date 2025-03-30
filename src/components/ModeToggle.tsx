@@ -24,7 +24,7 @@ export function ModeToggle() {
   }
 
   return (
-    <div className="fixed top-0 right-0 mr-10 mt-10">
+    <div>
       <Button
         variant="outline"
         size="icon"

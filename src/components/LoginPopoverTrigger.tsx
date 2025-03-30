@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Button } from "@/components/ui/button"; // Import the Button component from shadcn
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const Popover = PopoverPrimitive.Root;

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { LoginPopover } from "@/components/LoginPopover";
 import getSession from "./actions/getSession";
 import Image from "next/image";
+import { ModeToggle } from "@/components/ModeToggle";
 
 export default async function Home() {
   const session = await getSession();
@@ -19,20 +20,26 @@ export default async function Home() {
         <DictionarySideBar />
         <SidebarTrigger />
         <section className="mx-auto size-full mt-10">
-          <span className="flex gap-20 justify-center">
-            <h1 className="inline text-4xl ">Language Learning</h1>
-            <Button variant="outline">
-              <Link href="/signup">Signup</Link>
-            </Button>
-
-            <LoginPopover />
-            <InfoPopover />
-            <Image
-              src={image || "/default-image.png"}
-              alt="User profile image"
-              width={50}
-              height={50}
-            />
+          <span className="flex justify-center items-center">
+            <h1 className="inline text-center text-4xl w-1/2">
+              Language Learning
+            </h1>
+            <div className="flex gap-8 justify-center items-center">
+              {" "}
+              <Button variant="outline">
+                <Link href="/signup">Signup</Link>
+              </Button>
+              <LoginPopover />
+              <InfoPopover />
+              <Image
+                className="rounded-md"
+                src={image || "/default-image.png"}
+                alt="User profile image"
+                width={40}
+                height={40}
+              />
+              <ModeToggle />
+            </div>
           </span>
 
           <div className="flex gap-10 mt-32">
