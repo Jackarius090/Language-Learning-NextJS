@@ -82,8 +82,8 @@ export default function TextBox() {
           onChange={onChange}
         />
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
-          <span>Selected Text: {highlightedText}</span>
-          <span>Translated text: {translatedText}</span>
+          <span>selected text: {highlightedText}</span>
+          <span>translated text: {translatedText}</span>
           <span>language: {language}</span>
           <div>
             <ChatGPT language={language} highlightedText={highlightedText} />

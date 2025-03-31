@@ -2,6 +2,7 @@ import { Popover, PopoverContent } from "@/components/ui/popover";
 import { LoginPopoverTrigger } from "./LoginPopoverTrigger";
 import { Button } from "./ui/button";
 import { login } from "@/lib/actions/auth";
+import EmailLoginIn from "./EmailLogin";
 
 export const LoginPopover = () => {
   return (
@@ -10,9 +11,12 @@ export const LoginPopover = () => {
       <PopoverContent side="bottom" className="PopoverContent">
         <div>
           <Button variant="outline" onClick={login}>
-            Sign in with github
+            sign in with Github
           </Button>
-        </div>{" "}
+        </div>
+        <div>
+          <EmailLoginIn />
+        </div>
       </PopoverContent>
     </Popover>
   );

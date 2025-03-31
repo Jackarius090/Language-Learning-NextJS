@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { SignupFormSchema } from "@/lib/zodDefinitions";
+import { useState } from "react";
+import bcrypt from "bcryptjs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,46 +19,64 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
-
 export default function SignUpForm() {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [error, setError] = useState<string | null>(null);
+
+  const form = useForm<z.infer<typeof SignupFormSchema>>({
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
-      username: "",
+      email: "",
+      password: "",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignupFormSchema>) {
+    setError(null);
+
+    try {
+      // 1️⃣ Hash the password
+      const hashedPassword = await bcrypt.hash(values.password, 10);
+
+      // 2️⃣ Send a request to your API to create the user
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: values.email,
+          password: hashedPassword,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create an account.");
+      }
+
+      // 3️⃣ Redirect to sign-in page after success
+      window.location.href = "/auth/signin";
+    } catch (err: any) {
+      setError(err.message || "Something went wrong.");
+    }
   }
 
   return (
     <div className="m-auto w-1/2 mt-20">
       <div className="flex gap-80">
-        <h1 className="mb-5">Signup Form</h1>{" "}
+        <h1 className="mb-5">Signup Form</h1>
         <Button variant="outline">
-          <Link href="/">go back</Link>
+          <Link href="/">Go Back</Link>
         </Button>
       </div>
+      {error && <p className="text-red-500">{error}</p>}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -63,18 +84,18 @@ export default function SignUpForm() {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>password</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input type="password" placeholder="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Sign Up</Button>
         </form>
       </Form>
     </div>

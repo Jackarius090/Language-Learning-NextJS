@@ -29,7 +29,7 @@ export default async function Home() {
               {!session && (
                 <div className="flex gap-8 justify-center items-center">
                   <Button variant="outline">
-                    <Link href="/signup">Signup</Link>
+                    <Link href="/signup">signup</Link>
                   </Button>
                   <LoginPopover />
                 </div>
@@ -44,7 +44,7 @@ export default async function Home() {
                 <Image
                   className="rounded-md"
                   src={image || "/default-image.png"}
-                  alt="User profile image"
+                  alt={session.user?.name ?? "profile pic"}
                   width={40}
                   height={40}
                 />
