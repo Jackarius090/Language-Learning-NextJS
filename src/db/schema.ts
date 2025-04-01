@@ -11,6 +11,10 @@ import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 
+const pool = postgres(process.env.DATABASE_URL!, { max: 1 });
+
+export const db = drizzle(pool);
+
 export const dictionary = pgTable("dictionary", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   source_word: varchar({ length: 255 }).notNull().unique(),
@@ -22,15 +26,11 @@ export const dictionary = pgTable("dictionary", {
 
 export type InsertEntry = typeof dictionary.$inferInsert;
 
-const pool = postgres(process.env.DATABASE_URL!, { max: 1 });
-
-export const db = drizzle(pool);
-
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"), // ✅ This column is missing in your database
+  name: text("name"),
   email: text("email").unique().notNull(),
   password: text("password"), // Make sure this is nullable for OAuth users
   emailVerified: timestamp("emailVerified", { mode: "date" }),
