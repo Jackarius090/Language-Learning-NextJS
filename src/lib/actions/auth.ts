@@ -6,9 +6,10 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export const login = async () => {
-  await signIn("github", { redirectTo: "/" });
+export const login = async (provider: string) => {
+  await signIn(provider, { redirectTo: "/" });
 };
+
 export const logout = async () => {
   await signOut({ redirectTo: "/" });
 };
@@ -19,18 +20,36 @@ export const saltAndHashPassword = async (password: string) => {
 };
 
 export const getUserFromDb = async (email: string, passwordHash: string) => {
-  const user = await db
+  const userResult = await db
     .select({
+      id: users.id, // Make sure to include the id
+      email: users.email,
       password: users.password,
       name: users.name,
     })
     .from(users)
     .where(eq(users.email, email))
-    .limit(1); // Ensures we only fetch one user
+    .limit(1);
 
-  if (!user.length) {
-    return false; // No user found
+  if (!userResult.length) {
+    return null; // Return null instead of false when no user is found
   }
 
-  return await bcrypt.compare(passwordHash, user[0].password);
+  const user = userResult[0];
+
+  if (!user.password) {
+    return null; // Return null if no password is stored
+  }
+
+  // Now TypeScript knows user.password is not null
+  if (await bcrypt.compare(passwordHash, user.password)) {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+  }
+
+  // Return null if password doesn't match
+  return null;
 };

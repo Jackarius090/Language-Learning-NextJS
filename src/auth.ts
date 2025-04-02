@@ -27,6 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const { email, password } = await signInSchema.parseAsync(
             credentials
           );
+          console.log(email, password);
 
           // logic to salt and hash password
           const pwHash = await saltAndHashPassword(password);
@@ -38,13 +39,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             throw new Error("Invalid credentials.");
           }
 
-          // return JSON object with the user data
           return user;
         } catch (error) {
           if (error instanceof ZodError) {
             // Return `null` to indicate that the credentials are invalid
             return null;
           }
+          return null; // Add this line to handle all errors
         }
       },
     }),
