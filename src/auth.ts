@@ -1,53 +1,77 @@
 import NextAuth from "next-auth";
-import { ZodError } from "zod";
 import Credentials from "next-auth/providers/credentials";
+import Github from "next-auth/providers/github";
 import { signInSchema } from "./lib/zod";
-// Your own logic for dealing with plaintext password strings; be careful!
-import { saltAndHashPassword } from "./lib/actions/auth";
-import { getUserFromDb } from "./lib/actions/auth";
-import GitHub from "next-auth/providers/github";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db } from "./db/schema";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
+export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    GitHub,
+    Github,
     Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "Email", type: "email", placeholder: "Email" },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "Password",
+        },
       },
-      authorize: async (credentials) => {
-        try {
-          let user = null;
+      async authorize(credentials) {
+        let user = null;
 
-          const { email, password } = await signInSchema.parseAsync(
-            credentials
-          );
-          console.log(email, password);
-
-          // logic to salt and hash password
-          const pwHash = await saltAndHashPassword(password);
-
-          // logic to verify if the user exists
-          user = await getUserFromDb(email, pwHash);
-
-          if (!user) {
-            throw new Error("Invalid credentials.");
-          }
-
-          return user;
-        } catch (error) {
-          if (error instanceof ZodError) {
-            // Return `null` to indicate that the credentials are invalid
-            return null;
-          }
-          return null; // Add this line to handle all errors
+        // validate credentials
+        const parsedCredentials = signInSchema.safeParse(credentials);
+        if (!parsedCredentials.success) {
+          console.error("Invalid credentials:", parsedCredentials.error.errors);
+          return null;
         }
+        // get user
+
+        user = {
+          id: "1",
+          name: "Jack",
+          email: "jackdickinson090@hotmail.com",
+          role: "admin",
+        };
+
+        if (!user) {
+          console.log("Invalid credentials");
+          return null;
+        }
+
+        return user;
       },
     }),
   ],
+  callbacks: {
+    authorized({ request: { nextUrl }, auth }) {
+      const isLoggedIn = !!auth?.user;
+      const { pathname } = nextUrl;
+      const role = auth?.user.role || "user";
+      if (pathname.startsWith("/auth/signin") && isLoggedIn) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
+      if (pathname.startsWith("/page2") && role !== "admin") {
+        return Response.redirect(new URL("/", nextUrl));
+      }
+      return !!auth;
+    },
+    jwt({ token, user, trigger, session }) {
+      if (user) {
+        token.id = user.id as string;
+        token.role = user.role as string;
+      }
+      if (trigger === "update" && session) {
+        token = { ...token, ...session };
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.id;
+      session.user.role = token.role;
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
 });

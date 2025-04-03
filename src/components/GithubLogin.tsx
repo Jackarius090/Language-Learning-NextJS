@@ -1,17 +1,12 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { login } from "@/lib/actions/auth";
+import { handleGithubSignin } from "@/app/actions/authActions";
 
 export default function GithubLogin() {
   return (
     <div>
-      <Button
-        variant="outline"
-        onClick={() => {
-          login("github");
-        }}
-      >
+      <Button variant="outline" onClick={handleGithubSignin}>
         sign in with Github
       </Button>
     </div>

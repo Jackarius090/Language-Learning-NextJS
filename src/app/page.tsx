@@ -8,7 +8,7 @@ import { LoginPopover } from "@/components/LoginPopover";
 import getSession from "./actions/getSession";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
-import { logout } from "@/lib/actions/auth";
+import { handleSignOut } from "./actions/authActions";
 
 export default async function Home() {
   const session = await getSession();
@@ -35,7 +35,7 @@ export default async function Home() {
                 </div>
               )}
               {session && (
-                <Button variant="outline" onClick={logout}>
+                <Button variant="outline" onClick={handleSignOut}>
                   logout
                 </Button>
               )}
