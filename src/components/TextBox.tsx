@@ -7,6 +7,7 @@ import { addDictionaryEntry } from "../db/dbActions";
 import { danishText } from "../../public/sample_texts/danishText";
 import { Button } from "./ui/button";
 import ChatGPT from "./ChatGPT";
+import LevelSelect from "./LevelSelect";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -65,6 +66,7 @@ export default function TextBox() {
 
   return (
     <div className="w-full">
+      <LevelSelect />
       <Button className="m-3" onClick={handleDanishText} variant="outline">
         Add Danish Text
       </Button>

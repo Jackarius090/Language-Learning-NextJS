@@ -7,16 +7,19 @@ import {
 } from "@/components/ui/sidebar";
 import WordList from "./WordList";
 import getData from "@/db/dbActions";
+import { Suspense } from "react";
 
 export async function DictionarySideBar() {
-  const words = await getData();
+  const words = getData();
 
   return (
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup />
-        <WordList words={words} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <WordList words={words} />
+        </Suspense>
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter />

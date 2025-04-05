@@ -1,21 +1,26 @@
 "use client";
-
 import { useState } from "react";
 import { Input } from "./ui/input";
 import Fuse from "fuse.js";
+import { use } from "react";
 
-type Word = {
-  id: number;
-  source_word: string;
-  translated_word: string;
-  source_language: string;
-  target_language: string;
-  createdAt: Date;
-};
-
-export default function WordList({ words }: { words: Word[] }) {
+export default function WordList({
+  words,
+}: {
+  words: Promise<
+    {
+      id: number;
+      source_word: string;
+      translated_word: string;
+      source_language: string;
+      target_language: string;
+      createdAt: Date;
+    }[]
+  >;
+}) {
+  const wordList = use(words);
   const [searchItem, setSearchItem] = useState("");
-  const [filteredWords, setFilteredWords] = useState(words);
+  const [filteredWords, setFilteredWords] = useState(wordList);
 
   const fuseOptions = {
     // isCaseSensitive: false,
@@ -35,12 +40,12 @@ export default function WordList({ words }: { words: Word[] }) {
     keys: ["source_word", "translated_word"],
   };
 
-  const fuse = new Fuse(words, fuseOptions);
+  const fuse = new Fuse(wordList, fuseOptions);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchItem(e.target.value);
     if (e.target.value.trim() === "") {
-      setFilteredWords(words);
+      setFilteredWords(wordList);
     } else {
       const fuzzyFilteredWords = fuse
         .search(e.target.value)

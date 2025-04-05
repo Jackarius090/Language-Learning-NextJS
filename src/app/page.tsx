@@ -18,7 +18,8 @@ export default async function Home() {
   return (
     <>
       <SidebarProvider defaultOpen={false}>
-        <DictionarySideBar />
+          <DictionarySideBar />
+   
         <SidebarTrigger />
         <section className="mx-auto size-full mt-10">
           <span className="flex justify-center items-center">
