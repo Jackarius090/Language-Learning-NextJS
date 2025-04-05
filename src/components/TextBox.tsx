@@ -56,8 +56,9 @@ export default function TextBox() {
   }
 
   async function handleDanishText() {
+    setTextAreaText("Loading...");
     const data = await GPTgenerate(
-      `Write a new original short story in Danish for a Danish language learner. It should be 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
+      `Write a new original short story in Danish for a Danish language learner. It should be around 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
     );
     setTextAreaText(data);
     detectLanguage(danishText);
