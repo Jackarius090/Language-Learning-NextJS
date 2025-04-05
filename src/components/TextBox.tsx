@@ -8,9 +8,11 @@ import { danishText } from "../../public/sample_texts/danishText";
 import { Button } from "./ui/button";
 import ChatGPT from "./ChatGPT";
 import LevelSelect from "./LevelSelect";
+import { GPTgenerate } from "@/lib/utils";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
+  const [readingLevel, setreadingLevel] = useState("B1");
   const [translatedText, setTranslatedText] = useState("");
   const [textAreaText, setTextAreaText] = useState("");
   const [language, setLanguage] = useState("");
@@ -45,7 +47,6 @@ export default function TextBox() {
     const firstTenWords = words.slice(0, 10);
     const firstTenWordsString = firstTenWords.join(" ");
     const language = await findLanguage(firstTenWordsString);
-    console.log(language);
     setLanguage(language);
   }
 
@@ -54,8 +55,11 @@ export default function TextBox() {
     detectLanguage(e.target.value);
   }
 
-  function handleDanishText() {
-    setTextAreaText(danishText);
+  async function handleDanishText() {
+    const data = await GPTgenerate(
+      `Write a new original short story in Danish for a Danish language learner. It should be 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
+    );
+    setTextAreaText(data);
     detectLanguage(danishText);
   }
 
@@ -66,9 +70,12 @@ export default function TextBox() {
 
   return (
     <div className="w-full">
-      <LevelSelect />
+      <LevelSelect
+        setreadingLevel={setreadingLevel}
+        readingLevel={readingLevel}
+      />
       <Button className="m-3" onClick={handleDanishText} variant="outline">
-        Add Danish Text
+        Generate Danish Text
       </Button>
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area

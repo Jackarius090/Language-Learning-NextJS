@@ -6,11 +6,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function LevelSelect() {
+export default function LevelSelect({
+  readingLevel,
+  setreadingLevel,
+}: {
+  readingLevel: string;
+  setreadingLevel: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
-    <Select>
-      <SelectTrigger className="w-[130px] inline-flex">
-        <SelectValue placeholder="reading level" />
+    <Select onValueChange={setreadingLevel}>
+      <SelectTrigger className="w-[140px] inline-flex">
+        <SelectValue placeholder={`reading level ${readingLevel}`} />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="A1">A1</SelectItem>

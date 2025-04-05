@@ -16,7 +16,7 @@ export default function Home({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/generate", {
+      const res = await fetch("/api/gptgenerate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -44,8 +44,8 @@ export default function Home({
       </form>
       <h1 className="mt-3">Example sentences:</h1>
       <div className="mt-4">1. {response[0]}</div>
-      <div className="mt-4">2. {response[2]}</div>
-      <div className="mt-4">3. {response[1]}</div>
+      <div className="mt-4">2. {response[1]}</div>
+      <div className="mt-4">3. {response[2]}</div>
     </section>
   );
 }
