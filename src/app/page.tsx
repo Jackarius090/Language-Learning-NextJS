@@ -9,6 +9,7 @@ import getSession from "./actions/getSession";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 import { handleSignOut } from "./actions/authActions";
+import GPTSpending from "@/components/GPTSpending";
 
 export default async function Home() {
   const session = await getSession();
@@ -18,8 +19,7 @@ export default async function Home() {
   return (
     <>
       <SidebarProvider defaultOpen={false}>
-          <DictionarySideBar />
-   
+        <DictionarySideBar />
         <SidebarTrigger />
         <section className="mx-auto size-full mt-10">
           <span className="flex justify-center items-center">
@@ -51,9 +51,9 @@ export default async function Home() {
                 />
               )}
               <ModeToggle />
+              <GPTSpending />
             </div>
           </span>
-
           <div className="flex gap-10 mt-32">
             <TextBox />
           </div>
