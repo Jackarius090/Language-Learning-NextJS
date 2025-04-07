@@ -1,7 +1,7 @@
 "use client";
+import { useState } from "react";
 export default function GPTSpending() {
-  let data = [];
-  let tokens = 0;
+  const [tokens, setTokens] = useState(0);
 
   const handleClick = async () => {
     try {
@@ -12,9 +12,9 @@ export default function GPTSpending() {
       if (!res.ok) {
         throw new Error("Failed to fetch response");
       }
-      data = await res.json();
+      const data = await res.json();
       console.log(data);
-      tokens = countTokens();
+      setTokens(countTokens(data));
 
       return data;
     } catch (error) {
@@ -23,17 +23,27 @@ export default function GPTSpending() {
     }
   };
 
-  function countTokens() {
+  function countTokens(data: {
+    data: Array<{
+      results: Array<{
+        input_tokens: number;
+        output_tokens: number;
+      }>;
+    }>;
+  }) {
     let inputTokensTotal = 0;
-    for (let i = 0; i < data.length; i++) {
-      inputTokensTotal += data[i].results[0]?.input_tokens;
+    for (let i = 0; i < data.data.length; i++) {
+      if (data.data[i].results[0]?.input_tokens) {
+        inputTokensTotal += data.data[i].results[0]?.input_tokens;
+      }
     }
+    console.log(inputTokensTotal);
     return inputTokensTotal;
   }
 
   return (
     <div>
-      <span>ChatGPT spending: {tokens}</span>
+      <span>ChatGPT tokens used: {tokens}</span>
       <button onClick={handleClick}>get spending</button>
     </div>
   );
