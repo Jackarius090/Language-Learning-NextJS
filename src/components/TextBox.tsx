@@ -10,6 +10,7 @@ import ChatGPT from "./ChatGPT";
 import LevelSelect from "./LevelSelect";
 import { GPTgenerate } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
+import PlayVoice from "./PlayVoice";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -86,6 +87,7 @@ export default function TextBox() {
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
+      <PlayVoice />
       <div className="flex gap-8">
         <Textarea
           className="w-9/12 border-2"
