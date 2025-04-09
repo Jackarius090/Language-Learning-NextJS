@@ -87,7 +87,7 @@ export default function TextBox() {
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
-      <PlayVoice />
+      <PlayVoice text={highlightedText} />
       <div className="flex gap-8">
         <Textarea
           className="w-9/12 border-2"

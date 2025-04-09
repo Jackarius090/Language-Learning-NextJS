@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 
-export default function PlayVoice() {
+export default function PlayVoice({ text }: { text: string }) {
   const [isPlaying, setIsPlaying] = useState(false);
 
   async function playVoice() {
     setIsPlaying(true);
     try {
-      const audioBase64 = await textToSpeech("Hello");
+      const audioBase64 = await textToSpeech(text);
       const audio = new Audio("data:audio/mp3;base64," + audioBase64);
       audio.play();
       audio.onended = () => setIsPlaying(false);

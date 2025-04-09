@@ -16,8 +16,8 @@ export async function textToSpeech(text: string) {
           text: text,
         },
         voice: {
-          languageCode: "en-GB",
-          name: "en-GB-Standard-A",
+          languageCode: "da-DK",
+          name: "da-DK-Standard-D",
           ssmlGender: "FEMALE",
         },
         audioConfig: {
