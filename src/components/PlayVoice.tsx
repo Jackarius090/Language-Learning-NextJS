@@ -21,10 +21,13 @@ export default function PlayVoice({ text }: { text: string }) {
   }
 
   return (
-    <div>
-      <Button onClick={playVoice} disabled={isPlaying}>
-        {isPlaying ? "Playing..." : "Play"}
-      </Button>
-    </div>
+    <Button
+      className="m-3"
+      onClick={playVoice}
+      disabled={isPlaying}
+      variant={"outline"}
+    >
+      {isPlaying ? "Playing..." : "Play"}
+    </Button>
   );
 }
