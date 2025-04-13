@@ -23,6 +23,12 @@ export default async function Home() {
         <SidebarTrigger />
         <section className="mx-auto size-full mt-10">
           <span className="flex justify-center items-center">
+            <Image
+              alt="logo"
+              width={25}
+              height={25}
+              src="public/logo.svg"
+            ></Image>
             <h1 className="inline text-center text-4xl w-1/2">
               Language Learning
             </h1>
