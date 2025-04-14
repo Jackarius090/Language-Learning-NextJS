@@ -24,12 +24,13 @@ export default async function Home() {
         <section className="mx-auto size-full mt-10">
           <span className="flex justify-center items-center">
             <Image
+              className="rounded-md"
               alt="logo"
-              width={25}
-              height={25}
-              src="public/logo.svg"
+              width={50}
+              height={50}
+              src="/logo.svg"
             ></Image>
-            <h1 className="inline text-center text-4xl w-1/2">
+            <h1 className="inline text-center text-4xl w-1/3 mr-16">
               Language Learning
             </h1>
             <div className="flex gap-8 justify-center items-center">

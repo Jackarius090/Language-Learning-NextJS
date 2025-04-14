@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { translateText } from "@/app/actions/translate";
 import { findLanguage } from "@/app/actions/findLanguage";
 import { addDictionaryEntry } from "../db/dbActions";
-import { danishText } from "../../public/sample_texts/danishText";
 import { Button } from "./ui/button";
 import ChatGPT from "./ChatGPT";
 import LevelSelect from "./LevelSelect";
@@ -65,7 +64,7 @@ export default function TextBox() {
       `Write a new original short story in Danish for a Danish language learner. It should be around 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
     );
     setTextAreaText(data);
-    detectLanguage(danishText);
+    detectLanguage(textAreaText);
     setIsLoading(false);
   }
 
