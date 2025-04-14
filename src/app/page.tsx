@@ -36,9 +36,9 @@ export default async function Home() {
             <div className="flex gap-8 justify-center items-center">
               {!session && (
                 <div className="flex gap-8 justify-center items-center">
-                  <Button variant="outline">
+                  {/* <Button variant="outline">
                     <Link href="/signup">signup</Link>
-                  </Button>
+                  </Button> */}
                   <LoginPopover />
                 </div>
               )}
