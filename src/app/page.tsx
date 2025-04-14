@@ -3,7 +3,6 @@ import { InfoPopover } from "@/components/InfoPopover";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DictionarySideBar } from "@/components/DictionarySideBar";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { LoginPopover } from "@/components/LoginPopover";
 import getSession from "./actions/getSession";
 import Image from "next/image";
