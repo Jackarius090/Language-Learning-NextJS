@@ -276,7 +276,10 @@ const SidebarTrigger = ({ ...props }) => {
           <PanelLeft id="iconButton" />
           <span className="sr-only">Toggle Dictionary</span>
         </Button>
-        <label htmlFor="toggleSidebar" className="text-nowrap relative z-20">
+        <label
+          htmlFor="toggleSidebar"
+          className="text-sm text-wrap relative z-20"
+        >
           Toggle Dictionary
         </label>
       </div>

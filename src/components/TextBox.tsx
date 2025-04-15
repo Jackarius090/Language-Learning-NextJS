@@ -64,7 +64,7 @@ export default function TextBox() {
       `Write a new original short story in Danish for a Danish language learner. It should be around 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
     );
     setTextAreaText(data);
-    detectLanguage(textAreaText);
+    detectLanguage(data);
     setIsLoading(false);
   }
 
@@ -89,6 +89,7 @@ export default function TextBox() {
       <PlayVoice text={highlightedText} />
       <div className="flex gap-8">
         <Textarea
+          spellCheck="false"
           className="w-9/12 border-2"
           rows={2}
           ref={textareaRef}

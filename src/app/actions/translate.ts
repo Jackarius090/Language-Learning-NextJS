@@ -23,7 +23,6 @@ export async function translateText(text: string, language: string) {
     const errorDetails = await res.text();
     console.error("Translation error:", errorDetails);
     throw new Error("Failed to translate");
-    return "failed to translate";
   }
   const data = await res.json();
   return data.data.translations[0].translatedText;

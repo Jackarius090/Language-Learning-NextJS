@@ -1,4 +1,17 @@
-export async function POST(req: Request): Promise<Response> {
+import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+
+interface AuthenticatedRequest extends Request {
+  auth?: any;
+}
+
+export const POST = auth(async function POST(
+  req: AuthenticatedRequest
+): Promise<Response> {
+  if (!req.auth) {
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  }
+
   try {
     const { prompt } = await req.json();
 
@@ -16,7 +29,19 @@ export async function POST(req: Request): Promise<Response> {
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
+        temperature: 1.2,
+        top_p: 1.0,
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a creative storyteller who always writes completely unique, imaginative short stories in Danish for language learners.",
+          },
+          {
+            role: "user",
+            content: enhancedPrompt,
+          },
+        ],
       }),
     });
 
@@ -36,4 +61,4 @@ export async function POST(req: Request): Promise<Response> {
       status: 500,
     });
   }
-}
+});
