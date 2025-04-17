@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
+import getSession from "@/app/actions/getSession";
 
 interface AuthenticatedRequest extends Request {
   auth?: any;
@@ -8,7 +9,9 @@ interface AuthenticatedRequest extends Request {
 export const POST = auth(async function POST(
   req: AuthenticatedRequest
 ): Promise<Response> {
-  if (!req.auth) {
+  const session = await getSession();
+  console.log(session);
+  if (!req.auth || !session) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   }
 
@@ -36,10 +39,6 @@ export const POST = auth(async function POST(
             role: "system",
             content:
               "You are a creative storyteller who always writes completely unique, imaginative short stories in Danish for language learners.",
-          },
-          {
-            role: "user",
-            content: enhancedPrompt,
           },
         ],
       }),
