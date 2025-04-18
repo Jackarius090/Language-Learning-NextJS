@@ -1,7 +1,13 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request): Promise<Response> {
+export const POST = auth(async (req) => {
+  const { auth: session } = req;
+
+  if (!session) {
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+  }
+
   try {
     const { prompt } = await req.json();
 
@@ -39,4 +45,4 @@ export async function POST(req: Request): Promise<Response> {
       status: 500,
     });
   }
-}
+});

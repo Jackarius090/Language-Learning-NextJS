@@ -1,17 +1,10 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
-import getSession from "@/app/actions/getSession";
 
-interface AuthenticatedRequest extends Request {
-  auth?: any;
-}
+export const POST = auth(async (req) => {
+  const { auth: session } = req;
 
-export const POST = auth(async function POST(
-  req: AuthenticatedRequest
-): Promise<Response> {
-  const session = await getSession();
-  console.log(session);
-  if (!req.auth || !session) {
+  if (!session) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   }
 
@@ -32,8 +25,7 @@ export const POST = auth(async function POST(
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        temperature: 1.2,
-        top_p: 1.0,
+        temperature: 1.8,
         messages: [
           {
             role: "system",

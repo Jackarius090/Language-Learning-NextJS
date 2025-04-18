@@ -7,7 +7,7 @@ import { addDictionaryEntry } from "../db/dbActions";
 import { Button } from "./ui/button";
 import ChatGPT from "./ChatGPT";
 import LevelSelect from "./LevelSelect";
-import { GPTgenerate } from "@/lib/utils";
+import { generateDanishText } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
 import { textToSpeech } from "@/app/actions/textToSpeech";
@@ -79,9 +79,7 @@ export default function TextBox() {
   async function handleDanishText() {
     setIsLoading(true);
     setTextAreaText("Loading...");
-    const data = await GPTgenerate(
-      `Write a new original short story in Danish for a Danish language learner. It should be around 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`
-    );
+    const data = await generateDanishText(readingLevel);
     setTextAreaText(data);
     detectLanguage(data);
     setIsLoading(false);
