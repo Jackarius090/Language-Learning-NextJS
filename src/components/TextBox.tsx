@@ -10,6 +10,7 @@ import LevelSelect from "./LevelSelect";
 import { GPTgenerate } from "@/lib/utils";
 import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
+import { textToSpeech } from "@/app/actions/textToSpeech";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -19,6 +20,20 @@ export default function TextBox() {
   const [language, setLanguage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  async function playVoice(text: string) {
+    setIsPlaying(true);
+    try {
+      const audioBase64 = await textToSpeech(text);
+      const audio = new Audio("data:audio/mp3;base64," + audioBase64);
+      audio.play();
+      audio.onended = () => setIsPlaying(false);
+    } catch (error) {
+      console.error("Playback failed:", error);
+      setIsPlaying(false);
+    }
+  }
 
   async function newEntry(sw: string, tw: string) {
     const newEntry = {
@@ -37,7 +52,11 @@ export default function TextBox() {
         textarea.selectionStart,
         textarea.selectionEnd
       );
+      if (!selectedText || selectedText.trim() === "") {
+        return;
+      }
       setHighlightedText(selectedText);
+      playVoice(selectedText);
       const translation = await translateText(selectedText, language);
       setTranslatedText(translation);
       await newEntry(selectedText, translation);
@@ -86,7 +105,11 @@ export default function TextBox() {
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
-      <PlayVoice text={highlightedText} />
+      <PlayVoice
+        isPlaying={isPlaying}
+        playVoice={playVoice}
+        highlightedText={highlightedText}
+      />
       <div className="flex gap-8">
         <Textarea
           spellCheck="false"
