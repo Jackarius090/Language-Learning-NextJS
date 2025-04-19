@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { Button } from "./ui/button";
 export default function GPTSpending() {
   const [tokens, setTokens] = useState(0);
+  const [cost, setCost] = useState(0);
 
   const handleClick = async () => {
     try {
@@ -14,7 +16,12 @@ export default function GPTSpending() {
       }
       const data = await res.json();
       console.log(data);
-      setTokens(countTokens(data));
+      setTokens(
+        countMoney(countInputTokens(data), countOutputTokens(data)).totalTokens
+      );
+      setCost(
+        countMoney(countInputTokens(data), countOutputTokens(data)).totalCost
+      );
 
       return data;
     } catch (error) {
@@ -23,7 +30,7 @@ export default function GPTSpending() {
     }
   };
 
-  function countTokens(data: {
+  function countInputTokens(data: {
     data: Array<{
       results: Array<{
         input_tokens: number;
@@ -41,10 +48,39 @@ export default function GPTSpending() {
     return inputTokensTotal;
   }
 
+  function countOutputTokens(data: {
+    data: Array<{
+      results: Array<{
+        input_tokens: number;
+        output_tokens: number;
+      }>;
+    }>;
+  }) {
+    let outputTokensTotal = 0;
+    for (let i = 0; i < data.data.length; i++) {
+      if (data.data[i].results[0]?.output_tokens) {
+        outputTokensTotal += data.data[i].results[0]?.output_tokens;
+      }
+    }
+    console.log(outputTokensTotal);
+    return outputTokensTotal;
+  }
+
+  function countMoney(inputTokens: number, outputTokens: number) {
+    const inputTokenDollars = inputTokens / 1000000 / 0.4;
+    const outputTokenDollars = outputTokens / 1000000 / 1.6;
+    const totalCost = inputTokenDollars + outputTokenDollars;
+    const totalTokens = inputTokens + outputTokens;
+    return { totalTokens, totalCost };
+  }
+
   return (
     <div>
-      <span>ChatGPT tokens used: {tokens}</span>
-      <button onClick={handleClick}>get spending</button>
+      <div>ChatGPT tokens used today: {tokens}</div>
+      <div>Total cost: ${cost}</div>
+      <Button onClick={handleClick} variant={"outline"}>
+        get spending
+      </Button>
     </div>
   );
 }

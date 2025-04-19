@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export const POST = auth(async (req) => {
-  const { auth: session } = req;
+export async function POST(req: NextRequest) {
+  const session = await auth();
 
-  if (!session) {
+  if (!session || !session.user) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   }
 
@@ -12,9 +12,10 @@ export const POST = auth(async (req) => {
     const { prompt } = await req.json();
 
     if (!prompt) {
-      return new Response(JSON.stringify({ error: "Prompt is required" }), {
-        status: 400,
-      });
+      return NextResponse.json(
+        { error: "Prompt is required" },
+        { status: 400 }
+      );
     }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -24,13 +25,17 @@ export const POST = auth(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        temperature: 1.8,
+        model: "gpt-4.1-mini-2025-04-14",
+        temperature: 1.1,
         messages: [
           {
             role: "system",
             content:
-              "You are a creative storyteller who always writes completely unique, imaginative short stories in Danish for language learners.",
+              "You are a creative storyteller who writes original short stories in Danish for people learning the language. Each story you will write in the style of a random famous Danish author. Each story will be set in a random location and have a random theme. Your stories will be around 200 words long and tailored to the CEFR level specified. Always use correct Danish grammar and spelling, and ensure the vocabulary and sentence structure match the learner's level.",
+          },
+          {
+            role: "user",
+            content: prompt,
           },
         ],
       }),
@@ -41,15 +46,12 @@ export const POST = auth(async (req) => {
     }
 
     const data = await response.json();
-    return new Response(JSON.stringify(data), { status: 200 });
+    return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof Error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-      });
-    }
-    return new Response(JSON.stringify({ error: "Unknown error" }), {
-      status: 500,
-    });
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
+    );
   }
-});
+}

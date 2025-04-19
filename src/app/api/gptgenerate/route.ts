@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export const POST = auth(async (req) => {
-  const { auth: session } = req;
+export async function POST(req: NextRequest) {
+  const session = await auth();
 
   if (!session) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
@@ -25,7 +25,14 @@ export const POST = auth(async (req) => {
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a Danish language teacher that makes unique sentences that show the meaning of the word as well as how they are used grammically.",
+          },
+          { role: "user", content: prompt },
+        ],
       }),
     });
 
@@ -45,4 +52,4 @@ export const POST = auth(async (req) => {
       status: 500,
     });
   }
-});
+}

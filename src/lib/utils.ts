@@ -9,13 +9,12 @@ export async function generateDanishSentences(
   highlightedText: string,
   language: string
 ) {
-  const prompt = `Return three example sentences using this word: ${highlightedText}. The sentences should be in this language (using ISO 639 language codes): ${language}. Each sentence should be immediated followed by the english translation in parentheses. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`;
   try {
     const res = await fetch("/api/gptgenerate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prompt: prompt,
+        prompt: `Return three example sentences using this word: ${highlightedText}. The sentences should be in this language (using ISO 639 language codes): ${language}. Each sentence should be immediatly followed by the english translation in parentheses. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
       }),
     });
 
@@ -34,11 +33,11 @@ export async function generateDanishSentences(
 
 export async function generateDanishText(readingLevel: string) {
   try {
-    const res = await fetch("/api/gptgenerate", {
+    const res = await fetch("/api/getdanishtext", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prompt: `Write a new original short story in Danish for a Danish language learner. It should be around 200 words long and at reading level ${readingLevel} using the Common European Framework of Reference`,
+        prompt: `Write an original short story in Danish for a Danish language learner. It should be at reading level ${readingLevel} using the Common European Framework of Reference`,
       }),
     });
 

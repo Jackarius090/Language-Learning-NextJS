@@ -23,6 +23,10 @@ export default function TextBox() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   async function playVoice(text: string) {
+    if (!text || text.trim() === "") {
+      console.log("no text to play");
+      return;
+    }
     setIsPlaying(true);
     try {
       const audioBase64 = await textToSpeech(text);
