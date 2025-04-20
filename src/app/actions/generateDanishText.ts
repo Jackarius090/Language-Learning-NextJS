@@ -13,6 +13,10 @@ export async function generateDanishText(readingLevel: string) {
     return;
   }
 
+  const locations = ["workplace", "beach", "on holiday", "at the store"];
+
+  const storyLocation = locations[Math.floor(Math.random() * locations.length)];
+
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       cache: "no-store",
@@ -27,8 +31,7 @@ export async function generateDanishText(readingLevel: string) {
         messages: [
           {
             role: "system",
-            content:
-              "You are a creative storyteller who writes original short stories in Danish for people learning the language. Each story you will write in the style of a random famous Danish author. Each story will be set in a random location and have a random theme. Your stories will be around 200 words long and tailored to the CEFR level specified. Always use correct Danish grammar and spelling, and ensure the vocabulary and sentence structure match the learner's level.",
+            content: `You are a creative storyteller who writes original short stories in Danish for people learning the language. Each story you will write in the style of a random famous Danish author. Each story will be set in location: ${storyLocation} and have a random theme. Your stories will be around 200 words long and tailored to the CEFR level specified. Always use correct Danish grammar and spelling, and ensure the vocabulary and sentence structure match the learner's level.`,
           },
           {
             role: "user",
@@ -44,7 +47,6 @@ export async function generateDanishText(readingLevel: string) {
 
     const data = await response.json();
     const object = data.choices[0].message.content;
-    console.log(object);
     return object || "No content found.";
   } catch (error) {
     console.error(error instanceof Error ? error.message : "Unknown error");
