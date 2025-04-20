@@ -1,7 +1,14 @@
 "use server";
+import { auth } from "@/auth";
 
 export const textToSpeech = async (text: string) => {
   "use cache";
+
+  const session = await auth();
+  if (!session || !session.user) {
+    return console.log("Not authenticated");
+  }
+
   const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
 
   if (!apiKey) {

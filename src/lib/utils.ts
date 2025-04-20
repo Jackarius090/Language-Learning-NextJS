@@ -30,26 +30,3 @@ export async function generateDanishSentences(
     return "Error fetching response";
   }
 }
-
-export async function generateDanishText(readingLevel: string) {
-  try {
-    const res = await fetch("/api/getdanishtext", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: `Write an original short story in Danish for a Danish language learner. It should be at reading level ${readingLevel} using the Common European Framework of Reference`,
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch response");
-    }
-
-    const data = await res.json();
-    const object = data.choices[0].message.content;
-    return object || "No content found.";
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : "Unknown error");
-    return "Error fetching response";
-  }
-}

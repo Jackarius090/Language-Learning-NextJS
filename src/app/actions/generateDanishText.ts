@@ -1,31 +1,28 @@
+"use server";
 import { auth } from "@/auth";
-import { NextResponse, NextRequest } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function generateDanishText(readingLevel: string) {
+  if (readingLevel.length != 2) {
+    console.log("readingLevel length too long");
+    return;
+  }
   const session = await auth();
 
   if (!session || !session.user) {
-    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+    console.log("not authenticated, no session found");
+    return;
   }
 
   try {
-    const { prompt } = await req.json();
-
-    if (!prompt) {
-      return NextResponse.json(
-        { error: "Prompt is required" },
-        { status: 400 }
-      );
-    }
-
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      cache: "no-store",
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-4.1-mini-2025-04-14",
+        model: "gpt-3.5-turbo",
         temperature: 1.1,
         messages: [
           {
@@ -35,7 +32,7 @@ export async function POST(req: NextRequest) {
           },
           {
             role: "user",
-            content: prompt,
+            content: `Write an original short story in Danish for a Danish language learner. It should be at reading level ${readingLevel} using the Common European Framework of Reference`,
           },
         ],
       }),
@@ -46,12 +43,11 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    const object = data.choices[0].message.content;
+    console.log(object);
+    return object || "No content found.";
   } catch (error) {
-    console.error("Error processing request:", error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
-    );
+    console.error(error instanceof Error ? error.message : "Unknown error");
+    return "Error fetching response";
   }
 }

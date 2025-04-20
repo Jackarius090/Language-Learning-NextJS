@@ -7,7 +7,7 @@ import { addDictionaryEntry } from "../db/dbActions";
 import { Button } from "./ui/button";
 import ChatGPT from "./ChatGPT";
 import LevelSelect from "./LevelSelect";
-import { generateDanishText } from "@/lib/utils";
+import { generateDanishText } from "@/app/actions/generateDanishText";
 import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
 import { textToSpeech } from "@/app/actions/textToSpeech";

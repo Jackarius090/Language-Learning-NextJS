@@ -1,8 +1,8 @@
 "use server";
 
 export async function translateText(text: string, language: string) {
+  "use cache";
   const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
-
   const res = await fetch(
     `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`,
     {
