@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 export default function GPTSpending() {
   const [tokens, setTokens] = useState(0);
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState("");
 
   const handleClick = async () => {
     try {
@@ -15,12 +15,12 @@ export default function GPTSpending() {
         throw new Error("Failed to fetch response");
       }
       const data = await res.json();
-      console.log(data);
       setTokens(
         countMoney(countInputTokens(data), countOutputTokens(data)).totalTokens
       );
       setCost(
-        countMoney(countInputTokens(data), countOutputTokens(data)).totalCost
+        countMoney(countInputTokens(data), countOutputTokens(data))
+          .roundedTotalCost
       );
 
       return data;
@@ -44,7 +44,6 @@ export default function GPTSpending() {
         inputTokensTotal += data.data[i].results[0]?.input_tokens;
       }
     }
-    console.log(inputTokensTotal);
     return inputTokensTotal;
   }
 
@@ -62,16 +61,16 @@ export default function GPTSpending() {
         outputTokensTotal += data.data[i].results[0]?.output_tokens;
       }
     }
-    console.log(outputTokensTotal);
     return outputTokensTotal;
   }
 
   function countMoney(inputTokens: number, outputTokens: number) {
     const inputTokenDollars = inputTokens / 1000000 / 0.4;
     const outputTokenDollars = outputTokens / 1000000 / 1.6;
-    const totalCost = inputTokenDollars + outputTokenDollars;
+    const TotalCost = inputTokenDollars + outputTokenDollars;
+    const roundedTotalCost = TotalCost.toFixed(4);
     const totalTokens = inputTokens + outputTokens;
-    return { totalTokens, totalCost };
+    return { totalTokens, roundedTotalCost };
   }
 
   return (

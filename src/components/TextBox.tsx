@@ -5,7 +5,7 @@ import { translateText } from "@/app/actions/translate";
 import { findLanguage } from "@/app/actions/findLanguage";
 import { addDictionaryEntry } from "../db/dbActions";
 import { Button } from "./ui/button";
-import ChatGPT from "./ChatGPT";
+import ExampleSentences from "./ExampleSentences";
 import LevelSelect from "./LevelSelect";
 import { generateDanishText } from "@/app/actions/generateDanishText";
 import { LoaderCircle } from "lucide-react";
@@ -128,7 +128,10 @@ export default function TextBox() {
           <span>translated text: {translatedText}</span>
           <span>language: {language}</span>
           <div>
-            <ChatGPT language={language} highlightedText={highlightedText} />
+            <ExampleSentences
+              language={language}
+              highlightedText={highlightedText}
+            />
           </div>
         </div>
       </div>
