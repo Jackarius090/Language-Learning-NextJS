@@ -1,5 +1,6 @@
 "use server";
 import { auth } from "@/auth";
+import { decode } from "he";
 
 export async function translateText(text: string, language: string) {
   if (
@@ -44,5 +45,8 @@ async function getTranslation(text: string, language: string) {
     throw new Error("Failed to translate");
   }
   const data = await res.json();
-  return data.data.translations[0].translatedText;
+  const translationData = data.data.translations[0].translatedText;
+  const decodedTranslation = decode(translationData);
+
+  return decodedTranslation;
 }

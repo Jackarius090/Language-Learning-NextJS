@@ -62,6 +62,7 @@ export default function TextBox() {
       setHighlightedText(selectedText);
       playVoice(selectedText);
       const translation = await translateText(selectedText, language);
+      console.log(translation);
       setTranslatedText(translation);
       await newEntry(selectedText, translation);
     }
