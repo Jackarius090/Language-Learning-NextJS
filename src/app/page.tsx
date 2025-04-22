@@ -12,7 +12,9 @@ import GPTSpending from "@/components/GPTSpending";
 
 export default async function Home() {
   const session = await getSession();
-  console.log(session);
+  if (session) {
+    console.log(session);
+  }
   const image = session?.user?.image;
 
   return (

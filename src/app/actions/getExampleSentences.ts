@@ -3,10 +3,9 @@
 import { auth } from "@/auth";
 
 export async function getExampleSentences(word: string, language: string) {
-  console.log(word.length);
   if (word.length > 30 || language.length > 6) {
     console.log("error: inputs invalid to get example sentences");
-    return;
+    return "error: inputs invalid to get example sentences";
   }
   const session = await auth();
   if (!session || !session.user) {

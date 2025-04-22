@@ -1,10 +1,15 @@
 "use server";
 import { auth } from "@/auth";
 
-export const textToSpeech = async (text: string) => {
+export const textToSpeech = async (text: string): Promise<string> => {
+  if (text.length > 30 || typeof text !== "string") {
+    console.log("error: inputs invalid to get audio");
+    throw new Error("error: inputs invalid to get audio");
+  }
   const session = await auth();
   if (!session || !session.user) {
-    return console.log("Not authenticated");
+    console.log("not authenticated, no session found");
+    throw new Error("not authenticated, no session found");
   }
   return getVoiceFile(text);
 };

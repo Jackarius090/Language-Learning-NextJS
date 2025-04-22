@@ -1,6 +1,25 @@
 "use server";
+import { auth } from "@/auth";
 
 export async function translateText(text: string, language: string) {
+  if (
+    text.length > 30 ||
+    language.length > 6 ||
+    typeof text !== "string" ||
+    typeof language !== "string"
+  ) {
+    console.log("error: inputs invalid to get translation");
+    return "error: inputs invalid to get translation";
+  }
+  const session = await auth();
+  if (!session || !session.user) {
+    console.log("not authenticated, no session found");
+    return "not authenticated, no session found";
+  }
+  return getTranslation(text, language);
+}
+
+async function getTranslation(text: string, language: string) {
   "use cache";
   const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
   const res = await fetch(
