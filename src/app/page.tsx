@@ -27,8 +27,8 @@ export default async function Home() {
             <Image
               className="rounded-md"
               alt="logo"
-              width={50}
-              height={50}
+              width={65}
+              height={65}
               src="/logo.svg"
             ></Image>
             <h1 className="inline text-center text-4xl w-1/3 mr-16">
@@ -62,7 +62,7 @@ export default async function Home() {
               <GPTSpending />
             </div>
           </span>
-          <div className="flex gap-10 mt-32">
+          <div className="flex gap-10 mt-20">
             <TextBox />
           </div>
         </section>
