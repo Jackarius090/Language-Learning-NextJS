@@ -11,6 +11,7 @@ import { generateDanishText } from "@/app/actions/generateDanishText";
 import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
 import { textToSpeech } from "@/app/actions/textToSpeech";
+import { generateChineseText } from "@/app/actions/generateChineseText";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -89,6 +90,15 @@ export default function TextBox() {
     setIsLoading(false);
   }
 
+  async function handleChineseText() {
+    setIsLoading(true);
+    setTextAreaText("Loading...");
+    const data = await generateChineseText(readingLevel);
+    setTextAreaText(data);
+    detectLanguage(data);
+    setIsLoading(false);
+  }
+
   function handleClearText() {
     setTextAreaText("");
     setLanguage("");
@@ -104,6 +114,11 @@ export default function TextBox() {
         Generate Danish Text
         {isLoading && <LoaderCircle className="size-5 animate-spin" />}
       </Button>
+      <Button className="m-3" onClick={handleChineseText} variant="outline">
+        Generate Chinese Text
+        {isLoading && <LoaderCircle className="size-5 animate-spin" />}
+      </Button>
+
       <Button className="m-3" onClick={handleClearText} variant="outline">
         Clear text area
       </Button>
