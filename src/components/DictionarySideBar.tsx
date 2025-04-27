@@ -5,12 +5,13 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import WordList from "./WordList";
 import getData from "@/db/dbActions";
 import { Suspense } from "react";
+import WordList from "./WordList";
 
 export async function DictionarySideBar() {
   const words = getData();
+  
 
   return (
     <Sidebar>
