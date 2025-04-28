@@ -19,7 +19,8 @@ export default function TextBox() {
   const [translatedText, setTranslatedText] = useState("");
   const [textAreaText, setTextAreaText] = useState("");
   const [language, setLanguage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [danishLoading, setDanishLoading] = useState(false);
+  const [chineseLoading, setChineseLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -82,21 +83,21 @@ export default function TextBox() {
   }
 
   async function handleDanishText() {
-    setIsLoading(true);
+    setDanishLoading(true);
     setTextAreaText("Loading...");
     const data = await generateDanishText(readingLevel);
     setTextAreaText(data);
     detectLanguage(data);
-    setIsLoading(false);
+    setDanishLoading(false);
   }
 
   async function handleChineseText() {
-    setIsLoading(true);
+    setChineseLoading(true);
     setTextAreaText("Loading...");
     const data = await generateChineseText(readingLevel);
     setTextAreaText(data);
     detectLanguage(data);
-    setIsLoading(false);
+    setChineseLoading(false);
   }
 
   function handleClearText() {
@@ -112,11 +113,11 @@ export default function TextBox() {
       />
       <Button className="m-3" onClick={handleDanishText} variant="outline">
         Generate Danish Text
-        {isLoading && <LoaderCircle className="size-5 animate-spin" />}
+        {danishLoading && <LoaderCircle className="size-5 animate-spin" />}
       </Button>
       <Button className="m-3" onClick={handleChineseText} variant="outline">
         Generate Chinese Text
-        {isLoading && <LoaderCircle className="size-5 animate-spin" />}
+        {chineseLoading && <LoaderCircle className="size-5 animate-spin" />}
       </Button>
 
       <Button className="m-3" onClick={handleClearText} variant="outline">
