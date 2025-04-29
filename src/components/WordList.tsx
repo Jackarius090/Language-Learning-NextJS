@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
 import dynamic from "next/dynamic";
 const Words = dynamic(() => import("./Words"));
 
 export default function WordList({
   words,
+  loadWords,
 }: {
   words: Promise<
     {
@@ -16,9 +16,8 @@ export default function WordList({
       createdAt: Date;
     }[]
   >;
+  loadWords: boolean;
 }) {
-  const [loadWords, setloadWords] = useState(false);
-
   return (
     <section>
       {loadWords && <Words words={words} />}
