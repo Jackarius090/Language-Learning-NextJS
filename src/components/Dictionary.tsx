@@ -10,6 +10,7 @@ import {
 import { Suspense } from "react";
 import WordList from "./WordList";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 export function Dictionary({
   words,
@@ -26,14 +27,13 @@ export function Dictionary({
   >;
 }) {
   const [loadWords, setloadWords] = useState(false);
-  
-  onClick={() => setloadWords(!loadWords)
 
   return (
     <Sidebar>
       <SidebarHeader />
       <SidebarContent>
         <SidebarGroup />
+
         <Suspense fallback={<div>Loading...</div>}>
           <WordList loadWords={loadWords} words={words} />
         </Suspense>

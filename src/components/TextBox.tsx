@@ -12,6 +12,7 @@ import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 import { generateChineseText } from "@/app/actions/generateChineseText";
+import { SidebarTrigger } from "./ui/sidebar";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -107,6 +108,8 @@ export default function TextBox() {
 
   return (
     <div className="w-full">
+      <SidebarTrigger />
+
       <LevelSelect
         setreadingLevel={setreadingLevel}
         readingLevel={readingLevel}
