@@ -1,10 +1,11 @@
 "use client";
 import dynamic from "next/dynamic";
+import { useLoadWordsStore } from "@/lib/loadWordsToggle";
+
 const Words = dynamic(() => import("./Words"));
 
 export default function WordList({
   words,
-  loadWords,
 }: {
   words: Promise<
     {
@@ -16,12 +17,8 @@ export default function WordList({
       createdAt: Date;
     }[]
   >;
-  loadWords: boolean;
 }) {
-  return (
-    <section>
-      {loadWords && <Words words={words} />}
-      <button onClick={() => setloadWords(!loadWords)}>Toggle</button>
-    </section>
-  );
+  const loadWords = useLoadWordsStore((state) => state.loadWordsToggle);
+
+  return <section>{loadWords && <Words words={words} />}</section>;
 }

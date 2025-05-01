@@ -1,5 +1,6 @@
 "use client";
 
+import { useLoadWordsStore } from "@/lib/loadWordsToggle";
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { VariantProps, cva } from "class-variance-authority";
@@ -263,6 +264,13 @@ Sidebar.displayName = "Sidebar";
 
 const SidebarTrigger = ({ ...props }) => {
   const { toggleSidebar } = useSidebar();
+  const loadWords = useLoadWordsStore((state) => state.toggleLoadWords);
+
+  function toggleWithWordLoad() {
+    loadWords();
+    toggleSidebar();
+  }
+
   return (
     <div className="w-20">
       <div className="flex items-center m-2 mt-4 relative z-10 overflow-visible">
@@ -270,7 +278,7 @@ const SidebarTrigger = ({ ...props }) => {
           id="toggleSidebar"
           data-sidebar="trigger"
           variant="ghost"
-          onClick={toggleSidebar}
+          onClick={toggleWithWordLoad}
           {...props}
         >
           <PanelLeft id="iconButton" />

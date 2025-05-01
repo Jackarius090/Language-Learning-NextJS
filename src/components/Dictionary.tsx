@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Suspense } from "react";
 import WordList from "./WordList";
-import { useState } from "react";
-import { Button } from "./ui/button";
 
 export function Dictionary({
   words,
@@ -26,8 +24,6 @@ export function Dictionary({
     }[]
   >;
 }) {
-  const [loadWords, setloadWords] = useState(false);
-
   return (
     <Sidebar>
       <SidebarHeader />
@@ -35,7 +31,7 @@ export function Dictionary({
         <SidebarGroup />
 
         <Suspense fallback={<div>Loading...</div>}>
-          <WordList loadWords={loadWords} words={words} />
+          <WordList words={words} />
         </Suspense>
         <SidebarGroup />
       </SidebarContent>
