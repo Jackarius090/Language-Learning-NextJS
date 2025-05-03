@@ -1,17 +1,21 @@
 "use client";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { LoaderCircle } from "lucide-react";
 export default function GPTSpending() {
   const [tokens, setTokens] = useState(0);
   const [cost, setCost] = useState("");
+  const [spendingLoading, setSpendingLoading] = useState(false);
 
   const handleClick = async () => {
+    setSpendingLoading(true);
     try {
       const res = await fetch("/api/gptusage", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) {
+        setSpendingLoading(false);
         throw new Error("Failed to fetch response");
       }
       const data = await res.json();
@@ -22,10 +26,11 @@ export default function GPTSpending() {
         countMoney(countInputTokens(data), countOutputTokens(data))
           .roundedTotalCost
       );
-
+      setSpendingLoading(false);
       return data;
     } catch (error) {
       console.error(error instanceof Error ? error.message : "Unknown error");
+      setSpendingLoading(false);
       return "Error fetching response";
     }
   };
@@ -78,7 +83,8 @@ export default function GPTSpending() {
       <div>ChatGPT tokens used today: {tokens}</div>
       <div>Total cost: ${cost}</div>
       <Button onClick={handleClick} variant={"outline"}>
-        get spending
+        Get spending
+        {spendingLoading && <LoaderCircle className="size-5 animate-spin" />}
       </Button>
     </div>
   );

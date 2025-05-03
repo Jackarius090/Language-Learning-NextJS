@@ -15,8 +15,8 @@ export default function LevelSelect({
 }) {
   return (
     <Select onValueChange={setreadingLevel}>
-      <SelectTrigger className="w-[140px] inline-flex m-3">
-        <SelectValue placeholder={`reading level ${readingLevel}`} />
+      <SelectTrigger className="w-[150px] inline-flex m-3">
+        <SelectValue placeholder={`Reading level ${readingLevel}`} />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="A1">A1</SelectItem>
