@@ -1,6 +1,38 @@
 "use server";
 
-export async function GET(): Promise<Response> {
+// try {
+//     const res = await fetch("/api/gptusage", {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//     });
+//     if (!res.ok) {
+//       setSpendingLoading(false);
+//       throw new Error("Failed to fetch response");
+//     }
+//     const data = await res.json();
+//     setTokens(
+//       countMoney(countInputTokens(data), countOutputTokens(data)).totalTokens
+//     );
+//     setCost(
+//       countMoney(countInputTokens(data), countOutputTokens(data))
+//         .roundedTotalCost
+//     );
+//     setSpendingLoading(false);
+//     return data;
+//   } catch (error) {
+//     console.error(error instanceof Error ? error.message : "Unknown error");
+//     setSpendingLoading(false);
+//     return "Error fetching response";
+//   }
+
+export async function gptusage(): Promise<{
+  data: Array<{
+    results: Array<{
+      input_tokens: number;
+      output_tokens: number;
+    }>;
+  }>;
+}> {
   try {
     // Get UNIX timestamps for start of today and current time
     const now = new Date();
@@ -35,12 +67,8 @@ export async function GET(): Promise<Response> {
     }
 
     const data = await response.json();
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(data.data);
+    return data;
   } catch (error) {
     console.error("OpenAI usage API error:", error);
     if (error instanceof Error) {

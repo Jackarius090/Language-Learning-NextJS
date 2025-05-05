@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { LoaderCircle } from "lucide-react";
+import { gptusage } from "@/app/actions/gptusage";
+
 export default function GPTSpending() {
   const [tokens, setTokens] = useState(0);
   const [cost, setCost] = useState("");
@@ -10,15 +12,8 @@ export default function GPTSpending() {
   const handleClick = async () => {
     setSpendingLoading(true);
     try {
-      const res = await fetch("/api/gptusage", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!res.ok) {
-        setSpendingLoading(false);
-        throw new Error("Failed to fetch response");
-      }
-      const data = await res.json();
+      const data = await gptusage();
+      console.log("data:", data);
       setTokens(
         countMoney(countInputTokens(data), countOutputTokens(data)).totalTokens
       );
