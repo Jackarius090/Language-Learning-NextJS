@@ -1,30 +1,5 @@
 "use server";
 
-// try {
-//     const res = await fetch("/api/gptusage", {
-//       method: "GET",
-//       headers: { "Content-Type": "application/json" },
-//     });
-//     if (!res.ok) {
-//       setSpendingLoading(false);
-//       throw new Error("Failed to fetch response");
-//     }
-//     const data = await res.json();
-//     setTokens(
-//       countMoney(countInputTokens(data), countOutputTokens(data)).totalTokens
-//     );
-//     setCost(
-//       countMoney(countInputTokens(data), countOutputTokens(data))
-//         .roundedTotalCost
-//     );
-//     setSpendingLoading(false);
-//     return data;
-//   } catch (error) {
-//     console.error(error instanceof Error ? error.message : "Unknown error");
-//     setSpendingLoading(false);
-//     return "Error fetching response";
-//   }
-
 export async function gptusage(): Promise<{
   data: Array<{
     results: Array<{
@@ -65,25 +40,10 @@ export async function gptusage(): Promise<{
       const errorText = await response.text();
       throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
     }
-
     const data = await response.json();
-    console.log(data.data);
     return data;
   } catch (error) {
     console.error("OpenAI usage API error:", error);
-    if (error instanceof Error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    }
-    return new Response(JSON.stringify({ error: "Unknown error" }), {
-      status: 500,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return { data: [] };
   }
 }

@@ -39,11 +39,12 @@ export default function GPTSpending() {
     }>;
   }) {
     let inputTokensTotal = 0;
-    for (let i = 0; i < data.data.length; i++) {
-      if (data.data[i].results[0]?.input_tokens) {
-        inputTokensTotal += data.data[i].results[0]?.input_tokens;
+    data.data.forEach((item) => {
+      if (item.results[0]?.input_tokens) {
+        inputTokensTotal += item.results[0]?.input_tokens;
       }
-    }
+      return inputTokensTotal;
+    });
     return inputTokensTotal;
   }
 
@@ -56,11 +57,12 @@ export default function GPTSpending() {
     }>;
   }) {
     let outputTokensTotal = 0;
-    for (let i = 0; i < data.data.length; i++) {
-      if (data.data[i].results[0]?.output_tokens) {
-        outputTokensTotal += data.data[i].results[0]?.output_tokens;
+    data.data.forEach((item) => {
+      if (item.results[0]?.output_tokens) {
+        outputTokensTotal += item.results[0]?.output_tokens;
       }
-    }
+      return outputTokensTotal;
+    });
     return outputTokensTotal;
   }
 
