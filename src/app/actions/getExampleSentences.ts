@@ -1,6 +1,8 @@
 "use server";
 
 import { auth } from "@/auth";
+import { decode } from "he";
+
 
 export async function getExampleSentences(word: string, language: string) {
   if (word.length > 30 || language.length > 6) {
@@ -30,11 +32,11 @@ async function generateSentences(word: string, language: string) {
           {
             role: "system",
             content:
-              "You are a Danish language teacher that makes unique sentences that show the meaning of the word as well as how they are used grammically.",
+              "You are a Danish language teacher that explains the meaning of words and how they are used",
           },
           {
             role: "user",
-            content: `Return three example sentences using this word: ${word}. The sentences should be in this language (using ISO 639 language codes): ${language}. Each sentence should be immediatly followed by the english translation in parentheses. Format the response as a JSON object with a 'sentences' key, containing an array of strings.`,
+            content: `Please explain the meaning of this word: ${word}. Include three example sentences that show the possible different meanings of the word. The language of the word is (using ISO 639 language codes): ${language}.`,
           },
         ],
       }),
@@ -45,8 +47,10 @@ async function generateSentences(word: string, language: string) {
     }
 
     const data = await response.json();
-    const sentences = await JSON.parse(data.choices[0].message.content);
-    return sentences || "No content found.";
+    const reply = decode(data.choices[0].message.content);
+    console.log(data.choices[0].message.content);
+    // const reply = await JSON.parse(data.choices[0].message.content);
+    return reply || "No content found.";
   } catch (error) {
     console.error(error instanceof Error ? error.message : "Unknown error");
     return "Error fetching response";
