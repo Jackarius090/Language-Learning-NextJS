@@ -5,7 +5,7 @@ import { translateText } from "@/app/actions/translate";
 import { findLanguage } from "@/app/actions/findLanguage";
 import { addDictionaryEntry } from "../db/dbActions";
 import { Button } from "./ui/button";
-import ExampleSentences from "./ExampleSentences";
+import ExampleSentences from "./WordExplanation";
 import LevelSelect from "./LevelSelect";
 import { generateDanishText } from "@/app/actions/generateDanishText";
 import { LoaderCircle } from "lucide-react";

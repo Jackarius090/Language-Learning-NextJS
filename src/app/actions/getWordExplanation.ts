@@ -3,21 +3,20 @@
 import { auth } from "@/auth";
 import { decode } from "he";
 
-
-export async function getExampleSentences(word: string, language: string) {
+export async function getWordExplanation(word: string, language: string) {
   if (word.length > 30 || language.length > 6) {
-    console.log("error: inputs invalid to get example sentences");
-    return "error: inputs invalid to get example sentences";
+    console.log("error: inputs invalid to get explanation");
+    return "error: inputs invalid to get explanation";
   }
   const session = await auth();
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
     return;
   }
-  return generateSentences(word, language);
+  return getExplanation(word, language);
 }
 
-async function generateSentences(word: string, language: string) {
+async function getExplanation(word: string, language: string) {
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       cache: "no-cache",
@@ -36,7 +35,7 @@ async function generateSentences(word: string, language: string) {
           },
           {
             role: "user",
-            content: `Please explain the meaning of this word: ${word}. Include three example sentences that show the possible different meanings of the word. The language of the word is (using ISO 639 language codes): ${language}.`,
+            content: `Please explain the meaning of this word: ${word}. Include three example sentences that show the possible different meanings of the word with an english translation. The language of the word is (using ISO 639 language codes): ${language}.`,
           },
         ],
       }),
@@ -48,8 +47,6 @@ async function generateSentences(word: string, language: string) {
 
     const data = await response.json();
     const reply = decode(data.choices[0].message.content);
-    console.log(data.choices[0].message.content);
-    // const reply = await JSON.parse(data.choices[0].message.content);
     return reply || "No content found.";
   } catch (error) {
     console.error(error instanceof Error ? error.message : "Unknown error");
