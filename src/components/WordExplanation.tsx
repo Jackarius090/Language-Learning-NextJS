@@ -38,7 +38,7 @@ export default function WordExplanation({
           </PopoverTrigger>
           <PopoverContent
             side="top"
-            className="PopoverContent max-h-80 overflow-y-scroll scrollbar-visible bg-zinc-900"
+            className="PopoverContent max-h-[70vh] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll scrollbar-visible bg-zinc-900"
           >
             <pre className="whitespace-pre-wrap text-xs font-sans">
               {explanationLoading ? (

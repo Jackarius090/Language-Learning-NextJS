@@ -4,7 +4,7 @@ import { decode } from "he";
 
 export async function translateText(text: string, language: string) {
   if (
-    text.length > 80 ||
+    text.length > 200 ||
     language.length > 6 ||
     typeof text !== "string" ||
     typeof language !== "string"

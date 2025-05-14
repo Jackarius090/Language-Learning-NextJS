@@ -5,7 +5,7 @@ import { translateText } from "@/app/actions/translate";
 import { findLanguage } from "@/app/actions/findLanguage";
 import { addDictionaryEntry } from "../db/dbActions";
 import { Button } from "./ui/button";
-import ExampleSentences from "./WordExplanation";
+import WordExplanation from "./WordExplanation";
 import LevelSelect from "./LevelSelect";
 import { generateDanishText } from "@/app/actions/generateDanishText";
 import { LoaderCircle } from "lucide-react";
@@ -107,7 +107,6 @@ export default function TextBox() {
 
   return (
     <div className="w-full">
-
       <LevelSelect
         setreadingLevel={setreadingLevel}
         readingLevel={readingLevel}
@@ -129,11 +128,11 @@ export default function TextBox() {
         playVoice={playVoice}
         highlightedText={highlightedText}
       />
-      <div className="flex gap-8">
+      <div className="flex gap-8 h-full">
         <Textarea
           spellCheck="false"
           className="w-9/12 border-2"
-          rows={2}
+          rows={13}
           ref={textareaRef}
           placeholder="Add text here... Try adding a sample text from the menu above or copy in your own text"
           onMouseUp={handleSelection}
@@ -145,7 +144,7 @@ export default function TextBox() {
           <span>translated text: {translatedText}</span>
           <span>language: {language}</span>
           <div>
-            <ExampleSentences
+            <WordExplanation
               language={language}
               highlightedText={highlightedText}
             />

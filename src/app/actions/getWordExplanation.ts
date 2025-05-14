@@ -35,7 +35,7 @@ async function getExplanation(word: string, language: string) {
           },
           {
             role: "user",
-            content: `Please explain the meaning of this word: ${word}. Include three example sentences that show the possible different meanings of the word with an english translation. The language of the word is (using ISO 639 language codes): ${language}.`,
+            content: `Please explain the possible different meanings of this word: ${word}. Include three example sentences that show the possible different meanings of the word with an english translation. The language of the word is (using ISO 639 language codes): ${language}.`,
           },
         ],
       }),
