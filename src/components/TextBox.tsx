@@ -106,7 +106,7 @@ export default function TextBox() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <LevelSelect
         setreadingLevel={setreadingLevel}
         readingLevel={readingLevel}

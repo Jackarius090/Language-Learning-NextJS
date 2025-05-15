@@ -13,6 +13,42 @@ export async function generateDanishText(readingLevel: string) {
     return;
   }
 
+  const purposes = [
+    "to entertain",
+    "to inform",
+    "to persuade",
+    "to express emotion",
+    "to give instructions",
+    "to reflect on an experience",
+    "to describe a scene",
+    "to tell a moral story",
+    "to amuse the reader",
+  ];
+
+  const perspectives = [
+    "first person (I)",
+    "second person (you)",
+    "third person (he/she/they)",
+  ];
+
+  const formats = [
+    "a short story",
+    "a poem",
+    "a personal diary entry",
+    "a letter",
+    "a dialogue between two people",
+    "a social media post",
+    "a short news article",
+    "a monologue",
+    "a folk tale",
+    "a play scene",
+    "a blog post",
+    "a children's story",
+    "a recipe with a personal story",
+    "an interview",
+    "random",
+  ];
+
   const locations = [
     "workplace",
     "beach",
@@ -35,8 +71,21 @@ export async function generateDanishText(readingLevel: string) {
     "at a music festival",
     "at the zoo",
     "on a bike ride",
+    "at the dentist",
+    "in a hospital waiting room",
+    "at a bus stop",
+    "in a crowded elevator",
+    "at a traffic light",
+    "in a garden",
+    "in a classroom",
+    "at a flea market",
+    "in a museum",
+    "in a public bathroom",
+    "on a ferry",
+    "in a swimming pool",
     "random",
   ];
+
   const themes = [
     "friendship",
     "losing something important",
@@ -58,7 +107,6 @@ export async function generateDanishText(readingLevel: string) {
     "first day at school",
     "fixing something broken",
     "learning something new",
-    "random",
   ];
 
   const danishAuthors = [
@@ -80,53 +128,20 @@ export async function generateDanishText(readingLevel: string) {
     "Stig Dalager",
     "Christine Daugaard",
     "Tove Ditlevsen",
-    "Inge Eriksen",
-    "Bent Faurby",
-    "Karl Gjellerup",
-    "Anna Grue",
-    "Meïr Aron Goldschmidt",
-    "Julius Villiam Gudmand-Høyer",
-    "Thorkild Hansen",
-    "Johan Ludvig Heiberg",
-    "Henrik Hertz",
-    "Peer Hultberg",
-    "Peter Høeg",
-    "Jens Peter Jacobsen",
-    "Johannes Vilhelm Jensen",
-    "Ellen Jørgensen (historian)",
-    "Christian Jungersen",
-    "Søren Kierkegaard",
-    "Eigil Knuth",
-    "Birgithe Kosovic",
-    "Tom Kristensen",
-    "Lars Kroijer",
-    "Cornelia von Levetzow",
-    "Svend Aage Madsen",
-    "Christian Madsbjerg",
-    "Peter Nansen",
-    "Henri Nathansen",
-    "Martin Andersen Nexø",
-    "Robert Storm Petersen",
-    "Henrik Pontoppidan",
-    "Jytte Rex",
-    "Klaus Rifbjerg",
-    "Aksel Sandemose",
-    "Peter Seeberg",
-    "Tage Skou-Hansen",
-    "Jan Sonnergaard",
-    "Villy Sørensen",
-    "Pia Tafdrup",
-    "Harald Tandrup",
-    "Kirsten Thorup",
-    "Dan Turell",
-    "Gustav Wied",
   ];
 
+  const purpose = purposes[Math.floor(Math.random() * purposes.length)];
+  const perspective =
+    perspectives[Math.floor(Math.random() * perspectives.length)];
+  const format = formats[Math.floor(Math.random() * formats.length)];
   const danishAuthor =
     danishAuthors[Math.floor(Math.random() * danishAuthors.length)];
   const storyLocation = locations[Math.floor(Math.random() * locations.length)];
   const theme = themes[Math.floor(Math.random() * themes.length)];
   console.log(danishAuthor);
+  console.log(purpose);
+  console.log(perspective);
+  console.log(format);
   console.log(theme);
   console.log(storyLocation);
 
@@ -148,8 +163,11 @@ export async function generateDanishText(readingLevel: string) {
         
         Your task is to write an original text that:
         - Is written in the style of this author: ${danishAuthor}
+        - The text is written with the purpose: ${purpose}
+        - It is written from a ${perspective} perspective
         - Takes place in this setting: ${storyLocation}
         - Explores this theme: ${theme}
+        - Is written as ${format}
         - Is around 200 words long
         - Matches the reading level: ${readingLevel} (CEFR)
         

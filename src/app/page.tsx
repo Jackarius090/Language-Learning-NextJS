@@ -62,7 +62,7 @@ export default async function Home() {
               <GPTSpending />
             </div>
           </span>
-          <div className="flex gap-10 mt-20">
+          <div className="flex gap-10 mt-20 mb-5">
             <TextBox />
           </div>
         </section>
