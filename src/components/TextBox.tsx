@@ -12,6 +12,8 @@ import { LoaderCircle } from "lucide-react";
 import PlayVoice from "./PlayVoice";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 import { generateChineseText } from "@/app/actions/generateChineseText";
+import { FormatTextBox } from "./FormatTextBox";
+import { useTextStyleStore } from "@/lib/textStyleStore";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -23,6 +25,12 @@ export default function TextBox() {
   const [chineseLoading, setChineseLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const textSize = useTextStyleStore((state) => state.fontSize);
+  const textColor = useTextStyleStore((state) => state.textColor);
+  const textFont = useTextStyleStore((state) => state.fontFamily);
+  const textAlignment = useTextStyleStore((state) => state.textAlignment);
+  const lineHeight = useTextStyleStore((state) => state.lineHeight);
 
   async function playVoice(text: string) {
     if (!text || text.trim() === "") {
@@ -111,6 +119,8 @@ export default function TextBox() {
         setreadingLevel={setreadingLevel}
         readingLevel={readingLevel}
       />
+
+      <FormatTextBox />
       <Button className="m-3" onClick={handleDanishText} variant="outline">
         Generate Danish Text
         {danishLoading && <LoaderCircle className="size-5 animate-spin" />}
@@ -138,6 +148,15 @@ export default function TextBox() {
           onMouseUp={handleSelection}
           value={textAreaText}
           onChange={onChange}
+          style={
+          {
+            textAlign: textAlignment,
+            fontFamily: textFont,
+            fontSize: `${textSize}px`,
+            color: textColor,
+            "--placeholder-color": textColor,
+            lineHeight: lineHeight,
+          } as React.CSSProperties}
         />
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
           <span>selected text: {highlightedText}</span>
