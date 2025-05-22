@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Popover,
   PopoverContent,
@@ -7,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { EditBoxTextSize } from "./EditTextBoxSize";
 import { Badge } from "@/components/ui/badge";
-
 
 import {
   Select,
@@ -27,7 +28,7 @@ import {
 } from "lucide-react";
 
 export function FormatTextBox() {
-  const textColor = useTextStyleStore((state) => state.color);
+  const textColor = useTextStyleStore((state) => state.textColor);
   const setTextColor = useTextStyleStore((state) => state.setTextColor);
   const fontFamily = useTextStyleStore((state) => state.fontFamily);
   const setFontFamily = useTextStyleStore((state) => state.setFontFamily);
@@ -35,14 +36,17 @@ export function FormatTextBox() {
   const setLineHeight = useTextStyleStore((state) => state.setLineHeight);
   const lineHeight = useTextStyleStore((state) => state.lineHeight);
 
-  const textAlignment = (alignment) => () => {
+  const textAlignment = (alignment: string) => () => {
     setTextAlignment(alignment);
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="text-xs md:text-base text-wrap" variant="outline">
+        <Button
+          className="m-3 text-xs md:text-base text-wrap"
+          variant="outline"
+        >
           Format Text
         </Button>
       </PopoverTrigger>
@@ -55,12 +59,8 @@ export function FormatTextBox() {
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="textcolor">Text color</Label>
-              <Select
-                id="textcolor"
-                value={textColor}
-                onValueChange={setTextColor}
-              >
-                <SelectTrigger className="col-span-2">
+              <Select value={textColor} onValueChange={setTextColor}>
+                <SelectTrigger id="textcolor" className="col-span-2">
                   <SelectValue placeholder="Select color" />
                 </SelectTrigger>
                 <SelectContent>
@@ -76,12 +76,8 @@ export function FormatTextBox() {
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="font">Font</Label>
-              <Select
-                id="font"
-                value={fontFamily}
-                onValueChange={setFontFamily}
-              >
-                <SelectTrigger className="col-span-2">
+              <Select value={fontFamily} onValueChange={setFontFamily}>
+                <SelectTrigger id="font" className="col-span-2">
                   <SelectValue placeholder="Select font" />
                 </SelectTrigger>
                 <SelectContent>

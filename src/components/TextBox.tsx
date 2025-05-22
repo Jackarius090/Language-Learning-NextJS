@@ -73,7 +73,12 @@ export default function TextBox() {
       playVoice(selectedText);
       const translation = await translateText(selectedText, language);
       setTranslatedText(translation);
-      await newEntry(selectedText, translation);
+      const splitWords = selectedText.split(" ").length;
+      console.log(splitWords);
+      console.log(selectedText);
+      if (splitWords === 1) {
+        await newEntry(selectedText, translation);
+      }
     }
   };
 
@@ -149,14 +154,15 @@ export default function TextBox() {
           value={textAreaText}
           onChange={onChange}
           style={
-          {
-            textAlign: textAlignment,
-            fontFamily: textFont,
-            fontSize: `${textSize}px`,
-            color: textColor,
-            "--placeholder-color": textColor,
-            lineHeight: lineHeight,
-          } as React.CSSProperties}
+            {
+              textAlign: textAlignment,
+              fontFamily: textFont,
+              fontSize: `${textSize}px`,
+              color: textColor,
+              "--placeholder-color": textColor,
+              lineHeight: lineHeight,
+            } as React.CSSProperties
+          }
         />
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
           <span>selected text: {highlightedText}</span>

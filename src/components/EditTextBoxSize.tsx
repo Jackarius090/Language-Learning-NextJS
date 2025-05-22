@@ -1,9 +1,11 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useTextStyleStore } from "@/lib/textStyleStore";
 
-export function EditBoxTextSize() {
+export function EditBoxTextSize({ id }: { id: string }) {
   const textSize = useTextStyleStore((state) => state.fontSize);
   const setValue = useTextStyleStore((state) => state.setFontSize);
   const decreaseTextSize = () => {
@@ -15,7 +17,7 @@ export function EditBoxTextSize() {
   };
 
   return (
-    <div className="flex flex-row">
+    <div id={id} className="flex flex-row">
       <Button
         onClick={decreaseTextSize}
         id="decreasetextsize"
