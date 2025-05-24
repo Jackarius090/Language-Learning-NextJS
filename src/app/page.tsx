@@ -9,6 +9,7 @@ import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 import { handleSignOut } from "./actions/authActions";
 import GPTSpending from "@/components/GPTSpending";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await getSession();
@@ -35,6 +36,9 @@ export default async function Home() {
               Language Learning
             </h1>
             <div className="flex gap-8 justify-center items-center">
+              <Button variant="outline">
+                <Link href={"/numbergame"}>Number Game</Link>
+              </Button>
               {!session && (
                 <div className="flex gap-8 justify-center items-center">
                   {/* <Button variant="outline">
