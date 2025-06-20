@@ -9,6 +9,9 @@ import { textToSpeech } from "@/app/actions/textToSpeech";
 export default function NumberGame() {
   const [number, setNumber] = useState(0);
   const [correct, setCorrect] = useState(false);
+  const [numberString, setNumberString] = useState("");
+  const [inARow, setInARow] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(5);
 
   function numberGenerator() {
     const num = Math.floor(Math.random() * 100);
@@ -32,6 +35,7 @@ export default function NumberGame() {
   function playGame() {
     const num = numberGenerator();
     const numberString = num.toString();
+    setNumberString(numberString);
     setNumber(num);
     playVoice(numberString);
   }
@@ -43,11 +47,25 @@ export default function NumberGame() {
     console.log("numberToCheck:", numberToCheck);
     if (numberToCheck == number) {
       setCorrect(true);
+      setInARow((prev) => prev + 1);
       console.log("right!");
+      e.target[0].value = "";
+      playGame();
       return;
     }
     setCorrect(false);
+    setInARow(0);
     console.log("false!");
+  }
+
+  function hearItAgain() {
+    playVoice(numberString);
+  }
+
+  function timer() {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1000);
+    }, 1000);
   }
 
   return (
@@ -62,15 +80,29 @@ export default function NumberGame() {
         </Button>
         <ModeToggle />
       </div>
-      <section className="size-80 bg-slate-700">
-        <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
-          <Input name="guessedNumber" placeholder="type number here"></Input>
-          <Button variant={"outline"} type="submit">
-            Check Answer
-          </Button>
-        </form>
+      <div className="flex justify-center">
+        <Button onClick={hearItAgain} variant="outline">
+          Hear it Again
+        </Button>
+      </div>
+      <section className="size-80 bg-slate-700 flex flex-col mx-auto rounded-md">
+        <div>
+          <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
+            <Input
+              className="bg-black"
+              name="guessedNumber"
+              placeholder="type number here"
+            ></Input>
+            <Button variant={"outline"} type="submit">
+              Check Answer
+            </Button>
+          </form>
+        </div>
         <div className="place-self-center mt-10">
           {correct ? <div>Correct!</div> : <div>False!</div>}
+        </div>
+        <div className="place-self-center mt-10">
+          Number of correct in a row: {inARow}
         </div>
       </section>
     </div>
