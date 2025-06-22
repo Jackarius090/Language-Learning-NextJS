@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ModeToggle";
 import { useState } from "react";
 import { textToSpeech } from "@/app/actions/textToSpeech";
+import NumberGameTimer from "@/components/NumberGameTimer";
 
 export default function NumberGame() {
   const [number, setNumber] = useState(0);
   const [correct, setCorrect] = useState(false);
   const [numberString, setNumberString] = useState("");
   const [inARow, setInARow] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(5);
 
   function numberGenerator() {
     const num = Math.floor(Math.random() * 100);
@@ -62,12 +62,6 @@ export default function NumberGame() {
     playVoice(numberString);
   }
 
-  function timer() {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1000);
-    }, 1000);
-  }
-
   return (
     <div className="min-h-screen size-96 mx-auto flex flex-col justify-center gap-10">
       <h1 className="text-center text-4xl text-nowrap">Number Game!</h1>
@@ -85,6 +79,11 @@ export default function NumberGame() {
           Hear it Again
         </Button>
       </div>
+
+      <div className="flex justify-center">
+        <NumberGameTimer />
+      </div>
+
       <section className="size-80 bg-slate-700 flex flex-col mx-auto rounded-md">
         <div>
           <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
