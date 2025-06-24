@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ModeToggle";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 import NumberGameTimer from "@/components/NumberGameTimer";
 
@@ -12,6 +12,8 @@ export default function NumberGame() {
   const [correct, setCorrect] = useState(false);
   const [numberString, setNumberString] = useState("");
   const [inARow, setInARow] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(10000);
+  const [isActive, setIsActive] = useState(false);
 
   function numberGenerator() {
     const num = Math.floor(Math.random() * 100);
@@ -32,24 +34,38 @@ export default function NumberGame() {
     }
   }
 
-  function playGame() {
+  const playGame = useCallback(() => {
+    setIsActive(true);
     const num = numberGenerator();
     const numberString = num.toString();
     setNumberString(numberString);
     setNumber(num);
     playVoice(numberString);
-  }
+  }, []);
 
-  function checkAnswer(e) {
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setTimeLeft(10000);
+      console.log(timeLeft);
+      playGame();
+      return;
+    }
+  }, [timeLeft, playGame]);
+
+  function checkAnswer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const numberToCheck = e.target[0].value;
+
+    const formData = new FormData(e.currentTarget);
+    const value = formData.get("guessedNumber") as string;
+    const numberToCheck = Number(value);
     console.log("number:", number);
     console.log("numberToCheck:", numberToCheck);
+    e.currentTarget.reset();
     if (numberToCheck == number) {
+      setTimeLeft(10000);
       setCorrect(true);
       setInARow((prev) => prev + 1);
       console.log("right!");
-      e.target[0].value = "";
       playGame();
       return;
     }
@@ -62,8 +78,13 @@ export default function NumberGame() {
     playVoice(numberString);
   }
 
+  function stopGame() {
+    setIsActive(false);
+    setTimeLeft(10000);
+  }
+
   return (
-    <div className="min-h-screen size-96 mx-auto flex flex-col justify-center gap-10">
+    <div className="min-h-screen size-96 mx-auto flex flex-col py-10 justify-center gap-10">
       <h1 className="text-center text-4xl text-nowrap">Number Game!</h1>
       <div className="flex gap-4 justify-center">
         <Button onClick={playGame} variant="outline" className="h-10">
@@ -81,7 +102,17 @@ export default function NumberGame() {
       </div>
 
       <div className="flex justify-center">
-        <NumberGameTimer />
+        <NumberGameTimer
+          timeLeft={timeLeft}
+          setTimeLeft={setTimeLeft}
+          isActive={isActive}
+          setIsActive={setIsActive}
+        />
+      </div>
+      <div className="flex justify-center">
+        <Button onClick={stopGame} variant="outline">
+          Stop game
+        </Button>
       </div>
 
       <section className="size-80 bg-slate-700 flex flex-col mx-auto rounded-md">

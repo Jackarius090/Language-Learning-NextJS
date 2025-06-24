@@ -1,34 +1,34 @@
-import { useState } from "react";
 import { useEffect } from "react";
 
-export default function NumberGameTimer() {
-  const [timeLeft, setTimeLeft] = useState(5000);
-  const [isActive, setIsActive] = useState(false);
-
+export default function NumberGameTimer({
+  timeLeft,
+  setTimeLeft,
+  isActive,
+  setIsActive,
+}: {
+  timeLeft: number;
+  setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
+  isActive: boolean;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   useEffect(() => {
-    let interval = null;
+    let interval: null | NodeJS.Timeout = null;
 
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft((timeLeft) => timeLeft - 1);
-      }, 1);
+        setTimeLeft((timeLeft) => timeLeft - 50);
+        console.log();
+      }, 50);
     } else if (timeLeft === 0) {
       setIsActive(false);
     }
-
-    return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
-
-  const startCountdown = () => setIsActive(true);
-  const resetCountdown = () => {
-    setTimeLeft(5000);
-    setIsActive(false);
-  };
+    if (interval) return () => clearInterval(interval);
+  }, [isActive, timeLeft, setTimeLeft, setIsActive]);
 
   const formatTime = (milliseconds: number) => {
-    const secs = Math.floor(milliseconds / 600);
-    const millisecs = milliseconds % 60;
-    return `${secs.toString().padStart(2, "0")}:${millisecs
+    const secs = Math.floor(milliseconds / 1000);
+    const hundredths = Math.floor((milliseconds % 1000) / 10);
+    return `${secs.toString().padStart(2, "0")}:${hundredths
       .toString()
       .padStart(2, "0")}`;
   };
@@ -37,12 +37,6 @@ export default function NumberGameTimer() {
     <div className="countdown-container">
       <div className="time-display text-4xl font-bold">
         {formatTime(timeLeft)}
-      </div>
-      <div className="controls">
-        <button onClick={startCountdown} disabled={isActive}>
-          Start
-        </button>
-        <button onClick={resetCountdown}>Reset</button>
       </div>
     </div>
   );
