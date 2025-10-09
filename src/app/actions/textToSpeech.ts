@@ -1,7 +1,10 @@
 "use server";
 import { auth } from "@/auth";
 
-export const textToSpeech = async (text: string): Promise<string> => {
+export const textToSpeech = async (
+  text: string,
+  language: string
+): Promise<string> => {
   if (text.length > 30 || typeof text !== "string") {
     console.log("error: inputs invalid to get audio");
     throw new Error("error: inputs invalid to get audio");
@@ -11,10 +14,10 @@ export const textToSpeech = async (text: string): Promise<string> => {
     console.log("not authenticated, no session found");
     throw new Error("not authenticated, no session found");
   }
-  return getVoiceFile(text);
+  return getVoiceFile(text, language);
 };
 
-const getVoiceFile = async (text: string) => {
+const getVoiceFile = async (text: string, language: string) => {
   "use cache";
 
   const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
@@ -40,9 +43,7 @@ const getVoiceFile = async (text: string) => {
           text: text,
         },
         voice: {
-          languageCode: "da-DK",
-          name: "da-DK-Standard-D",
-          ssmlGender: "FEMALE",
+          languageCode: language,
         },
         audioConfig: {
           audioEncoding: "MP3",
@@ -58,5 +59,5 @@ const getVoiceFile = async (text: string) => {
   }
   console.log("api request made");
   const data = await res.json();
-  return data.audioContent; // base64-encoded audio
+  return data.audioContent;
 };

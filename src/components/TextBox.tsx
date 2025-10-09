@@ -39,7 +39,7 @@ export default function TextBox() {
     }
     setIsPlaying(true);
     try {
-      const audioBase64 = await textToSpeech(text);
+      const audioBase64 = await textToSpeech(text, language);
       const audio = new Audio("data:audio/mp3;base64," + audioBase64);
       audio.play();
       audio.onended = () => setIsPlaying(false);
@@ -74,8 +74,6 @@ export default function TextBox() {
       const translation = await translateText(selectedText, language);
       setTranslatedText(translation);
       const splitWords = selectedText.split(" ").length;
-      console.log(splitWords);
-      console.log(selectedText);
       if (splitWords === 1) {
         await newEntry(selectedText, translation);
       }
