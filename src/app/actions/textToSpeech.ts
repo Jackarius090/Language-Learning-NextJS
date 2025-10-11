@@ -43,7 +43,7 @@ const getVoiceFile = async (text: string, language: string) => {
           text: text,
         },
         voice: {
-          languageCode: language,
+          languageCode: language || "da",
         },
         audioConfig: {
           audioEncoding: "MP3",

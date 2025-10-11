@@ -10,7 +10,7 @@ export async function translateText(text: string, language: string) {
     typeof language !== "string"
   ) {
     console.log("error: inputs invalid to get translation");
-    return "error: inputs invalid to get translation";
+    return "error: input too long";
   }
   const session = await auth();
   if (!session || !session.user) {

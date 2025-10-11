@@ -12,6 +12,7 @@ export default function NumberGame() {
   const [correct, setCorrect] = useState(false);
   const [numberString, setNumberString] = useState("");
   const [inARow, setInARow] = useState(0);
+  const [bestSoFar, setBestSoFar] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10000);
   const [isActive, setIsActive] = useState(false);
 
@@ -26,7 +27,7 @@ export default function NumberGame() {
       return;
     }
     try {
-      const audioBase64 = await textToSpeech(text);
+      const audioBase64 = await textToSpeech(text, "da");
       const audio = new Audio("data:audio/mp3;base64," + audioBase64);
       audio.play();
     } catch (error) {
@@ -64,7 +65,11 @@ export default function NumberGame() {
     if (numberToCheck == number) {
       setTimeLeft(10000);
       setCorrect(true);
-      setInARow((prev) => prev + 1);
+      setInARow((prevInARow) => {
+        const newInARow = prevInARow + 1;
+        setBestSoFar((prevBest) => Math.max(prevBest, newInARow));
+        return newInARow;
+      });
       console.log("right!");
       playGame();
       return;
@@ -134,6 +139,7 @@ export default function NumberGame() {
         <div className="place-self-center mt-10">
           Number of correct in a row: {inARow}
         </div>
+        <div className="place-self-center mt-10">Best so far: {bestSoFar}</div>
       </section>
     </div>
   );
