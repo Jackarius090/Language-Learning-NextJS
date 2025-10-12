@@ -6,20 +6,17 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { useState, useEffect, useCallback } from "react";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 import NumberGameTimer from "@/components/NumberGameTimer";
+import { danishOrdinals } from "@/lib/ordinalNumbers";
+import GameMode from "@/components/GameMode";
 
 export default function NumberGame() {
-  const [number, setNumber] = useState(0);
   const [correct, setCorrect] = useState(false);
   const [numberString, setNumberString] = useState("");
   const [inARow, setInARow] = useState(0);
   const [bestSoFar, setBestSoFar] = useState(0);
   const [timeLeft, setTimeLeft] = useState(10000);
   const [isActive, setIsActive] = useState(false);
-
-  function numberGenerator() {
-    const num = Math.floor(Math.random() * 100);
-    return num;
-  }
+  const [gameMode, setGameMode] = useState("Cardinals");
 
   async function playVoice(text: string) {
     try {
@@ -31,20 +28,49 @@ export default function NumberGame() {
     }
   }
 
+  const ordinalsGame = useCallback((numberString: string) => {
+    numberString += ".";
+    console.log(numberString);
+    const ordinalNumberString = danishOrdinals.get(numberString) ?? "";
+    playVoice(ordinalNumberString);
+    setNumberString(numberString);
+  }, []);
+
+  const cardinalsGame = useCallback((numberString: string) => {
+    playVoice(numberString);
+    setNumberString(numberString);
+  }, []);
+
+  const mixedGame = useCallback(
+    (numberString: string) => {
+      const num = Math.floor(Math.random() * 100);
+      if (num >= 50) {
+        ordinalsGame(numberString);
+      } else {
+        cardinalsGame(numberString);
+      }
+    },
+    [ordinalsGame, cardinalsGame]
+  );
+
   const playGame = useCallback(() => {
     setIsActive(true);
-    const num = numberGenerator();
-    // const numberString = num.toString();
-    const numberString = "45.";
-    setNumberString(numberString);
-    setNumber(num);
-    playVoice(numberString);
-  }, []);
+    const num = Math.floor(Math.random() * 100);
+    const numberString = num.toString();
+    if (gameMode == "Ordinals") {
+      ordinalsGame(numberString);
+      return;
+    } else if (gameMode == "Mixed") {
+      mixedGame(numberString);
+      return;
+    } else {
+      cardinalsGame(numberString);
+    }
+  }, [gameMode, mixedGame, ordinalsGame, cardinalsGame]);
 
   useEffect(() => {
     if (timeLeft === 0) {
       setTimeLeft(10000);
-      console.log(timeLeft);
       playGame();
       return;
     }
@@ -52,14 +78,10 @@ export default function NumberGame() {
 
   function checkAnswer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     const formData = new FormData(e.currentTarget);
-    const value = formData.get("guessedNumber") as string;
-    const numberToCheck = Number(value);
-    console.log("number:", number);
-    console.log("numberToCheck:", numberToCheck);
+    const numberToCheck = formData.get("guessedNumber") as string;
     e.currentTarget.reset();
-    if (numberToCheck == number) {
+    if (numberToCheck == numberString) {
       setTimeLeft(10000);
       setCorrect(true);
       setInARow((prevInARow) => {
@@ -115,6 +137,7 @@ export default function NumberGame() {
         <Button onClick={stopGame} variant="outline">
           Stop game
         </Button>
+        <GameMode gameMode={gameMode} setGameMode={setGameMode} />
       </div>
 
       <section className="size-80 bg-slate-700 flex flex-col mx-auto rounded-md">
