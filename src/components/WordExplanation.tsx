@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "./ui/button";
 import { getWordExplanation } from "@/app/actions/getWordExplanation";
 import {
@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, RefreshCcw } from "lucide-react";
 
 export default function WordExplanation({
   highlightedText,
@@ -16,15 +16,32 @@ export default function WordExplanation({
   highlightedText: string;
   language: string;
 }) {
-  const [definition, setdefinition] = useState<string>("");
+  const [definition, setDefinition] = useState<string>("");
   const [explanationLoading, setExplanationLoading] = useState(false);
 
+  const cacheRef = useRef<Map<string, string>>(new Map());
+
   const handleClick = async () => {
+    const cacheKey = `${highlightedText.trim().toLowerCase()}`;
+
+    if (cacheRef.current.has(cacheKey)) {
+      console.log(cacheRef.current);
+
+      setDefinition(cacheRef.current.get(cacheKey)!);
+      return;
+    }
+
     setExplanationLoading(true);
-    const data = await getWordExplanation(highlightedText, language);
-    console.log(data);
-    setdefinition(data || "No sentences found.");
-    setExplanationLoading(false);
+    try {
+      const data = await getWordExplanation(highlightedText, language);
+      const result = data || "No sentences found.";
+
+      cacheRef.current.set(cacheKey, result);
+
+      setDefinition(result);
+    } finally {
+      setExplanationLoading(false);
+    }
   };
 
   return (
@@ -40,7 +57,18 @@ export default function WordExplanation({
             side="top"
             className="PopoverContent max-h-[70vh] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-y-scroll scrollbar-visible bg-zinc-900"
           >
-            <pre className="whitespace-pre-wrap text-xs font-sans">
+            <div className="flex justify-end">
+              <Button
+                variant="outline"
+                size="icon"
+                className="m-1"
+                onClick={handleClick}
+              >
+                <RefreshCcw />
+              </Button>
+            </div>
+
+            <pre className="whitespace-pre-wrap text-xs font-sans px-2">
               {explanationLoading ? (
                 <LoaderCircle className="size-5 animate-spin" />
               ) : (

@@ -22,10 +22,6 @@ export default function NumberGame() {
   }
 
   async function playVoice(text: string) {
-    if (!text || text.trim() === "") {
-      console.log("no text to play");
-      return;
-    }
     try {
       const audioBase64 = await textToSpeech(text, "da");
       const audio = new Audio("data:audio/mp3;base64," + audioBase64);
@@ -38,7 +34,8 @@ export default function NumberGame() {
   const playGame = useCallback(() => {
     setIsActive(true);
     const num = numberGenerator();
-    const numberString = num.toString();
+    // const numberString = num.toString();
+    const numberString = "45.";
     setNumberString(numberString);
     setNumber(num);
     playVoice(numberString);
