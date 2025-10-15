@@ -18,15 +18,52 @@ export default function NumberGame() {
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
 
-  async function playVoice(text: string) {
+  async function preloadAllAudio() {
+    if (typeof window === "undefined") return;
+
+    for (let i = 0; i < 100; i++) {
+      const numberStr = i.toString();
+
+      if (localStorage.getItem(`tts-da-${numberStr}`)) continue;
+
+      try {
+        const audioBase64 = await textToSpeech(numberStr, "da");
+        localStorage.setItem(`tts-da-${numberStr}`, audioBase64);
+        console.log(`Stored audio for: ${numberStr}`);
+      } catch (err) {
+        console.error(`Error caching ${numberStr}:`, err);
+      }
+    }
+
+    alert("Danish number audios have been cached");
+  }
+
+  const playVoice = useCallback(async (text: string) => {
     try {
-      const audioBase64 = await textToSpeech(text, "da");
+      const cached = localStorage.getItem(`tts-da-${text}`);
+      let audioBase64 = cached;
+
+      if (!cached) {
+        audioBase64 = await textToSpeech(text, "da");
+        localStorage.setItem(`tts-da-${text}`, audioBase64);
+      }
+
       const audio = new Audio("data:audio/mp3;base64," + audioBase64);
       audio.play();
     } catch (error) {
       console.error("Playback failed:", error);
     }
-  }
+  }, []);
+
+  // async function playVoice(text: string) {
+  //   try {
+  //     const audioBase64 = await textToSpeech(text, "da");
+  //     const audio = new Audio("data:audio/mp3;base64," + audioBase64);
+  //     audio.play();
+  //   } catch (error) {
+  //     console.error("Playback failed:", error);
+  //   }
+  // }
 
   const ordinalsGame = useCallback((numberString: string) => {
     numberString += ".";
@@ -122,6 +159,9 @@ export default function NumberGame() {
       <div className="flex justify-center">
         <Button onClick={hearItAgain} variant="outline">
           Hear it Again
+        </Button>
+        <Button onClick={preloadAllAudio} variant="outline" className="h-10">
+          Preload All Audio
         </Button>
       </div>
 
