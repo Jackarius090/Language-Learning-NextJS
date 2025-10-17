@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ModeToggle";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { textToSpeech } from "@/app/actions/textToSpeech";
 import NumberGameTimer from "@/components/NumberGameTimer";
 import { danishOrdinals } from "@/lib/ordinalNumbers";
@@ -38,6 +38,8 @@ export default function NumberGame() {
     alert("Danish number audios have been cached");
   }
 
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const playVoice = useCallback(async (text: string) => {
     try {
       const cached = localStorage.getItem(`tts-da-${text}`);
@@ -48,8 +50,12 @@ export default function NumberGame() {
         localStorage.setItem(`tts-da-${text}`, audioBase64);
       }
 
-      const audio = new Audio("data:audio/mp3;base64," + audioBase64);
-      audio.play();
+      if (!audioRef.current) {
+        audioRef.current = new Audio();
+      }
+
+      audioRef.current.src = "data:audio/mp3;base64," + audioBase64;
+      await audioRef.current.play();
     } catch (error) {
       console.error("Playback failed:", error);
     }
