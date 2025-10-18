@@ -18,6 +18,8 @@ export default function NumberGame() {
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   async function preloadAllAudio() {
     if (typeof window === "undefined") return;
 
@@ -102,18 +104,18 @@ export default function NumberGame() {
     const numberString = num.toString();
     if (gameMode == "Ordinals") {
       ordinalsGame(numberString);
-      return;
     } else if (gameMode == "Mixed") {
       mixedGame(numberString);
-      return;
-    } else {
+    } else if (gameMode == "Cardinals") {
       cardinalsGame(numberString);
     }
+    inputRef.current?.focus();
   }, [gameMode, mixedGame, ordinalsGame, cardinalsGame]);
 
   useEffect(() => {
     if (timeLeft === 0) {
       setTimeLeft(10000);
+      setInARow(0);
       playGame();
       return;
     }
@@ -143,6 +145,7 @@ export default function NumberGame() {
 
   function hearItAgain() {
     playVoice(numberString);
+    inputRef.current?.focus();
   }
 
   function stopGame() {
@@ -190,9 +193,11 @@ export default function NumberGame() {
         <div>
           <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
             <Input
+              ref={inputRef}
               className="bg-black"
               name="guessedNumber"
               placeholder="type number here"
+              autoFocus
             ></Input>
             <Button variant={"outline"} type="submit">
               Check Answer
