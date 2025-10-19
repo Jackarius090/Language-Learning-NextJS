@@ -14,7 +14,8 @@ export default function NumberGame() {
   const [numberString, setNumberString] = useState("");
   const [inARow, setInARow] = useState(0);
   const [bestSoFar, setBestSoFar] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10000);
+  const [timeAllowed, setTimeAllowed] = useState(10000);
+  const [timeLeft, setTimeLeft] = useState(timeAllowed);
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
 
@@ -114,12 +115,12 @@ export default function NumberGame() {
 
   useEffect(() => {
     if (timeLeft === 0) {
-      setTimeLeft(10000);
+      setTimeLeft(timeAllowed);
       setInARow(0);
       playGame();
       return;
     }
-  }, [timeLeft, playGame]);
+  }, [timeAllowed, timeLeft, playGame]);
 
   function checkAnswer(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -150,7 +151,7 @@ export default function NumberGame() {
 
   function stopGame() {
     setIsActive(false);
-    setTimeLeft(10000);
+    setTimeLeft(timeAllowed);
   }
 
   return (
@@ -176,6 +177,7 @@ export default function NumberGame() {
 
       <div className="flex justify-center">
         <NumberGameTimer
+          setTimeAllowed={setTimeAllowed}
           timeLeft={timeLeft}
           setTimeLeft={setTimeLeft}
           isActive={isActive}

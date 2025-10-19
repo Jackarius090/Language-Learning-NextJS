@@ -1,11 +1,14 @@
 import { useEffect } from "react";
+import GameTimerButtons from "@/components/GameTimerButtons";
 
 export default function NumberGameTimer({
+  setTimeAllowed,
   timeLeft,
   setTimeLeft,
   isActive,
   setIsActive,
 }: {
+  setTimeAllowed: React.Dispatch<React.SetStateAction<number>>;
   timeLeft: number;
   setTimeLeft: React.Dispatch<React.SetStateAction<number>>;
   isActive: boolean;
@@ -17,7 +20,6 @@ export default function NumberGameTimer({
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((timeLeft) => timeLeft - 50);
-        console.log();
       }, 50);
     } else if (timeLeft === 0) {
       setIsActive(false);
@@ -34,9 +36,15 @@ export default function NumberGameTimer({
   };
 
   return (
-    <div className="countdown-container">
+    <div className="countdown-container flex col gap-4 items-center">
       <div className="time-display text-4xl font-bold">
         {formatTime(timeLeft)}
+      </div>
+      <div>
+        <GameTimerButtons
+          setTimeAllowed={setTimeAllowed}
+          setTimeLeft={setTimeLeft}
+        />
       </div>
     </div>
   );
