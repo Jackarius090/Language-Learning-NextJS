@@ -81,6 +81,9 @@ export default function TextBox() {
   };
 
   async function detectLanguage(text: string) {
+    if (!text) {
+      return;
+    }
     const words = text.split(" ");
     const firstTenWords = words.slice(0, 10);
     const firstTenWordsString = firstTenWords.join(" ");
