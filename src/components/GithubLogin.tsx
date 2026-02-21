@@ -5,10 +5,10 @@ import { handleGithubSignin } from "@/app/actions/authActions";
 
 export default function GithubLogin() {
   return (
-    <div>
-      <Button variant="outline" onClick={handleGithubSignin}>
-        sign in with Github
+    <form action={handleGithubSignin}>
+      <Button variant="outline" type="submit">
+        Sign in with GitHub
       </Button>
-    </div>
+    </form>
   );
 }
