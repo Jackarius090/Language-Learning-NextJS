@@ -4,20 +4,13 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DictionarySideBar } from "@/components/DictionarySideBar";
 import { Button } from "@/components/ui/button";
 import { LoginPopover } from "@/components/LoginPopover";
-import getSession from "./actions/getSession";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
-import { handleSignOut } from "./actions/authActions";
 import GPTSpending from "@/components/GPTSpending";
 import Link from "next/link";
 
 export default async function Home() {
-  const session = await getSession();
-  if (session) {
-    console.log(session);
-  }
-  const image = session?.user?.image;
-
+  const session = "";
   return (
     <>
       <SidebarProvider defaultOpen={false}>
@@ -47,13 +40,9 @@ export default async function Home() {
                   <LoginPopover />
                 </div>
               )}
-              {session && (
-                <Button variant="outline" onClick={handleSignOut}>
-                  logout
-                </Button>
-              )}
+              {session && <Button variant="outline">logout</Button>}
               <InfoPopover />
-              {image && (
+              {/* {image && (
                 <Image
                   className="rounded-md"
                   src={image || "/default-image.png"}
@@ -61,7 +50,7 @@ export default async function Home() {
                   width={40}
                   height={40}
                 />
-              )}
+              )} */}
               <ModeToggle />
               <GPTSpending />
             </div>

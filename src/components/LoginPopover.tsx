@@ -1,6 +1,5 @@
 import { Popover, PopoverContent } from "@/components/ui/popover";
 import { LoginPopoverTrigger } from "./LoginPopoverTrigger";
-import GithubLogin from "./GithubLogin";
 import Link from "next/link";
 
 export const LoginPopover = () => {
@@ -8,9 +7,8 @@ export const LoginPopover = () => {
     <Popover>
       <LoginPopoverTrigger>login </LoginPopoverTrigger>
       <PopoverContent side="bottom" className="PopoverContent">
-        <GithubLogin />
         <div>
-          <Link href={"/auth/signin"}>Email signin</Link>
+          <Link href={"/auth/signin"}>Sign in options</Link>
         </div>
       </PopoverContent>
     </Popover>

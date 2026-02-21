@@ -1,15 +1,16 @@
 "use server";
-import { auth } from "@/auth";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 export const textToSpeech = async (
   text: string,
-  language: string
+  language: string,
 ): Promise<string> => {
   if (text.length > 30 || typeof text !== "string") {
     console.log("error: inputs invalid to get audio");
     throw new Error("error: inputs invalid to get audio");
   }
-  const session = await auth();
+  const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
     throw new Error("not authenticated, no session found");
@@ -24,7 +25,7 @@ const getVoiceFile = async (text: string, language: string) => {
 
   if (!apiKey) {
     console.error(
-      "Google Cloud API Key not configured in environment variables."
+      "Google Cloud API Key not configured in environment variables.",
     );
     throw new Error("Server configuration error: API Key missing.");
   }
@@ -49,7 +50,7 @@ const getVoiceFile = async (text: string, language: string) => {
           audioEncoding: "MP3",
         },
       }),
-    }
+    },
   );
 
   if (!res.ok) {

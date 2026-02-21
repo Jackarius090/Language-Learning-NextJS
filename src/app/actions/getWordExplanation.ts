@@ -1,6 +1,7 @@
 "use server";
 
-import { auth } from "@/auth";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import { decode } from "he";
 
 export async function getWordExplanation(word: string, language: string) {
@@ -8,7 +9,7 @@ export async function getWordExplanation(word: string, language: string) {
     console.log("error: inputs invalid to get explanation");
     return "error: inputs invalid to get explanation";
   }
-  const session = await auth();
+  const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
     return;

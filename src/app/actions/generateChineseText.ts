@@ -1,12 +1,13 @@
 "use server";
-import { auth } from "@/auth";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 export async function generateChineseText(readingLevel: string) {
   if (readingLevel.length != 2) {
     console.log("readingLevel length too long");
     return;
   }
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   if (!session || !session.user) {
     console.log("not authenticated, no session found");

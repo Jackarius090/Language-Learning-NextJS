@@ -1,5 +1,6 @@
 "use server";
-import { auth } from "@/auth";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import { decode } from "he";
 
 export async function translateText(text: string, language: string) {
@@ -12,7 +13,7 @@ export async function translateText(text: string, language: string) {
     console.log("error: inputs invalid to get translation");
     return "error: input too long";
   }
-  const session = await auth();
+  const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
     return "not authenticated, no session found";
@@ -36,7 +37,7 @@ async function getTranslation(text: string, language: string) {
         target: "en",
         source: language,
       }),
-    }
+    },
   );
 
   if (!res.ok) {

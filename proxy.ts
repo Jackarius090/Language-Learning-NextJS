@@ -1,4 +1,4 @@
-export { auth as proxy } from "@/auth";
+export { default as proxy } from "next-auth/middleware";
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
