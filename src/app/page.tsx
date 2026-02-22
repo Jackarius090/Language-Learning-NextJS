@@ -8,9 +8,18 @@ import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 import GPTSpending from "@/components/GPTSpending";
 import Link from "next/link";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import SignOutButton from "@/components/SignOutButton";
 
 export default async function Home() {
-  const session = "";
+  const session = await getServerSession(authOptions);
+  let image = null;
+  if (session) {
+    image = session.user.image;
+    console.log(session);
+  }
+
   return (
     <>
       <SidebarProvider defaultOpen={false}>
@@ -34,23 +43,20 @@ export default async function Home() {
               </Button>
               {!session && (
                 <div className="flex gap-8 justify-center items-center">
-                  {/* <Button variant="outline">
-                    <Link href="/signup">signup</Link>
-                  </Button> */}
                   <LoginPopover />
                 </div>
               )}
-              {session && <Button variant="outline">logout</Button>}
+              {session && <SignOutButton />}
               <InfoPopover />
-              {/* {image && (
+              {image && (
                 <Image
                   className="rounded-md"
                   src={image || "/default-image.png"}
-                  alt={session.user?.name ?? "profile pic"}
+                  alt={session?.user.name ?? "profile pic"}
                   width={40}
                   height={40}
                 />
-              )} */}
+              )}
               <ModeToggle />
               <GPTSpending />
             </div>

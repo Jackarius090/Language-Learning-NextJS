@@ -6,6 +6,13 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_AUTH_ID!,
       clientSecret: process.env.GOOGLE_AUTH_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
     }),
   ],
   session: { strategy: "jwt" },
