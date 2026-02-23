@@ -16,10 +16,11 @@ export async function translateText(text: string, language: string) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
-    return "not authenticated, no session found";
+    return "no session found, please log in with google above";
   }
   return getTranslation(text, language);
 }
+
 
 async function getTranslation(text: string, language: string) {
   "use cache";

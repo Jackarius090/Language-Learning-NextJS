@@ -3,7 +3,7 @@ import { InfoPopover } from "@/components/InfoPopover";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DictionarySideBar } from "@/components/DictionarySideBar";
 import { Button } from "@/components/ui/button";
-import { LoginPopover } from "@/components/LoginPopover";
+import LoginButton from "@/components/LoginButton";
 import Image from "next/image";
 import { ModeToggle } from "@/components/ModeToggle";
 import GPTSpending from "@/components/GPTSpending";
@@ -43,7 +43,7 @@ export default async function Home() {
               </Button>
               {!session && (
                 <div className="flex gap-8 justify-center items-center">
-                  <LoginPopover />
+                  <LoginButton />
                 </div>
               )}
               {session && <SignOutButton />}

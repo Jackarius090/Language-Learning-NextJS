@@ -96,7 +96,7 @@ export default function NumberGame() {
         cardinalsGame(numberString);
       }
     },
-    [ordinalsGame, cardinalsGame]
+    [ordinalsGame, cardinalsGame],
   );
 
   const playGame = useCallback(() => {
