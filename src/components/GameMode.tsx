@@ -9,11 +9,7 @@ export default function GameMode({
   setGameMode: Dispatch<SetStateAction<string>>;
 }) {
   return (
-    <Tabs
-      value={gameMode}
-      onValueChange={setGameMode}
-      className="w-[400px] pl-4"
-    >
+    <Tabs value={gameMode} onValueChange={setGameMode}>
       <TabsList>
         <TabsTrigger value="Cardinals">Cardinals</TabsTrigger>
         <TabsTrigger value="Ordinals">Ordinals</TabsTrigger>

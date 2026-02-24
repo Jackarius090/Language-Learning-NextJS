@@ -8,6 +8,10 @@ import { textToSpeech } from "@/app/actions/textToSpeech";
 import NumberGameTimer from "@/components/NumberGameTimer";
 import { danishOrdinals } from "@/lib/ordinalNumbers";
 import GameMode from "@/components/GameMode";
+import { useSession } from "next-auth/react";
+import LoginButton from "@/components/LoginButton";
+import SignOutButton from "@/components/SignOutButton";
+import Image from "next/image";
 
 export default function NumberGame() {
   const [correct, setCorrect] = useState(false);
@@ -18,6 +22,12 @@ export default function NumberGame() {
   const [timeLeft, setTimeLeft] = useState(timeAllowed);
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
+
+  const { data: session } = useSession();
+  let image = null;
+  if (session) {
+    image = session.user.image;
+  }
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -157,16 +167,31 @@ export default function NumberGame() {
   return (
     <div className="min-h-screen size-96 mx-auto flex flex-col py-10 justify-center gap-10">
       <h1 className="text-center text-4xl text-nowrap">Number Game!</h1>
+      <div className="flex justify-center gap-4">
+        {" "}
+        {!session && (
+          <div className="flex gap-8 justify-center items-center">
+            <LoginButton />
+          </div>
+        )}
+        {session && <SignOutButton />}
+        {image && (
+          <Image
+            className="rounded-md"
+            src={image || "/default-image.png"}
+            alt={session?.user.name ?? "profile pic"}
+            width={40}
+            height={40}
+          />
+        )}
+      </div>
       <div className="flex gap-4 justify-center">
-        <Button onClick={playGame} variant="outline" className="h-10">
-          Play!
-        </Button>
         <Button variant="outline" className="h-10">
           <Link href={"/"}>Return to main page</Link>
         </Button>
         <ModeToggle />
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center gap-4">
         <Button onClick={hearItAgain} variant="outline">
           Hear it Again
         </Button>
@@ -184,10 +209,16 @@ export default function NumberGame() {
           setIsActive={setIsActive}
         />
       </div>
-      <div className="flex justify-center">
-        <Button onClick={stopGame} variant="outline">
-          Stop game
-        </Button>
+      <div className="flex justify-center gap-4">
+        {isActive ? (
+          <Button onClick={stopGame} variant="outline">
+            Stop game
+          </Button>
+        ) : (
+          <Button onClick={playGame} variant="outline" className="h-10">
+            Play!
+          </Button>
+        )}
         <GameMode gameMode={gameMode} setGameMode={setGameMode} />
       </div>
 
