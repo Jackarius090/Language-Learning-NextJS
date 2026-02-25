@@ -9,8 +9,8 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import SignOutButton from "@/components/SignOutButton";
-import ClientTextBox from "@/components/ClientTextBox";
-import ClientInfoPopover from "@/components/ClientInfoPopover";
+import TextBox from "@/components/TextBox";
+import { InfoPopover } from "@/components/InfoPopover";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -47,7 +47,7 @@ export default async function Home() {
                 </div>
               )}
               {session && <SignOutButton />}
-              <ClientInfoPopover />
+              <InfoPopover />
               {image && (
                 <Image
                   className="rounded-md"
@@ -62,7 +62,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="flex gap-10 mt-20 mb-5">
-            <ClientTextBox />
+            <TextBox />
           </div>
         </section>
       </SidebarProvider>
