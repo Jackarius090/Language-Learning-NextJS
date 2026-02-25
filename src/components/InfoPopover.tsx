@@ -1,3 +1,4 @@
+"use client";
 import {
   Popover,
   PopoverContent,
@@ -8,7 +9,7 @@ import { Info } from "lucide-react";
 export const InfoPopover = () => {
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Info />
       </PopoverTrigger>
       <PopoverContent side="bottom" className="PopoverContent">
