@@ -1,5 +1,3 @@
-import TextBox from "@/components/TextBox";
-import { InfoPopover } from "@/components/InfoPopover";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DictionarySideBar } from "@/components/DictionarySideBar";
 import { Button } from "@/components/ui/button";
@@ -11,6 +9,8 @@ import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import SignOutButton from "@/components/SignOutButton";
+import ClientTextBox from "@/components/ClientTextBox";
+import ClientInfoPopover from "@/components/ClientInfoPopover";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -26,7 +26,7 @@ export default async function Home() {
         <DictionarySideBar />
         <SidebarTrigger />
         <section className="mx-auto size-full mt-10">
-          <span className="flex justify-center items-center">
+          <div className="flex justify-center items-center">
             <Image
               className="rounded-md"
               alt="logo"
@@ -38,7 +38,7 @@ export default async function Home() {
               Language Learning
             </h1>
             <div className="flex gap-8 justify-center items-center">
-              <Button variant="outline">
+              <Button variant="outline" asChild>
                 <Link href={"/numbergame"}>Number Game</Link>
               </Button>
               {!session && (
@@ -47,7 +47,7 @@ export default async function Home() {
                 </div>
               )}
               {session && <SignOutButton />}
-              <InfoPopover />
+              <ClientInfoPopover />
               {image && (
                 <Image
                   className="rounded-md"
@@ -60,9 +60,9 @@ export default async function Home() {
               <ModeToggle />
               <GPTSpending />
             </div>
-          </span>
+          </div>
           <div className="flex gap-10 mt-20 mb-5">
-            <TextBox />
+            <ClientTextBox />
           </div>
         </section>
       </SidebarProvider>
