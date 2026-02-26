@@ -9,9 +9,9 @@ export async function generateDanishText(readingLevel: string) {
   }
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session) {
     console.log("not authenticated, no session found");
-    return "please sign in to use APIs";
+    return;
   }
 
   const purposes = [
@@ -139,12 +139,6 @@ export async function generateDanishText(readingLevel: string) {
     danishAuthors[Math.floor(Math.random() * danishAuthors.length)];
   const storyLocation = locations[Math.floor(Math.random() * locations.length)];
   const theme = themes[Math.floor(Math.random() * themes.length)];
-  console.log(danishAuthor);
-  console.log(purpose);
-  console.log(perspective);
-  console.log(format);
-  console.log(theme);
-  console.log(storyLocation);
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -185,12 +179,15 @@ export async function generateDanishText(readingLevel: string) {
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      return "Sorry I have run out of OpenAI credits, so this feature does not work";
     }
 
     const data = await response.json();
     const object = data.choices[0].message.content;
-    return object || "No content found.";
+    return (
+      object ||
+      "Sorry I have run out of OpenAI credits, so this feature does not work"
+    );
   } catch (error) {
     console.error(error instanceof Error ? error.message : "Unknown error");
     return "Error fetching response";

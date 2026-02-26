@@ -29,7 +29,7 @@ export function ModeToggle() {
         onMouseDown={(e) => e.preventDefault()}
         variant="outline"
         onClick={toggleTheme}
-        className="size-10"
+        size="icon"
       >
         <Sun
           id="iconButton"

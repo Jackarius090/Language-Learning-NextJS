@@ -43,7 +43,7 @@ async function getExplanation(word: string, language: string) {
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      return "Sorry I have run out of OpenAI credits, so this feature does not work";
     }
 
     const data = await response.json();

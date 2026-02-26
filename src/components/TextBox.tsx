@@ -165,18 +165,18 @@ export default function TextBox() {
             } as React.CSSProperties
           }
         />
-        <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
+        <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-3 mr-20">
           <div>
             <div className="text-sm">selected text:</div>
-            {highlightedText}
+            <div className="mx-2 p-2 border rounded-md">{highlightedText}</div>
           </div>
           <div>
             <div className="text-sm">translated text:</div>
-            <div>{translatedText}</div>
+            <div className="mx-2 p-2 border rounded-md">{translatedText}</div>
           </div>
           <div>
             <div className="text-sm">language:</div>
-            <div>{language}</div>
+            <div className="mx-2 p-2 border rounded-md">{language}</div>
           </div>
           <div>
             <WordExplanation

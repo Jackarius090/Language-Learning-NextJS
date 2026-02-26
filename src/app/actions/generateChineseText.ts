@@ -11,7 +11,7 @@ export async function generateChineseText(readingLevel: string) {
 
   if (!session) {
     console.log("not authenticated, no session found");
-    return "please sign in to use APIs";
+    return;
   }
 
   const locations = [
@@ -103,7 +103,7 @@ export async function generateChineseText(readingLevel: string) {
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      return "Sorry I have run out of OpenAI credits, so this feature does not work";
     }
 
     const data = await response.json();

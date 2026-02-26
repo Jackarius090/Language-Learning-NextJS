@@ -165,39 +165,43 @@ export default function NumberGame() {
   }
 
   return (
-    <div className="min-h-screen size-96 mx-auto flex flex-col py-10 justify-center gap-10">
-      <h1 className="text-center text-4xl text-nowrap">Number Game!</h1>
-      <div className="flex justify-center gap-4">
-        {" "}
+    <div className="min-h-screen size-96 mx-auto flex flex-col justify-center gap-10">
+      <h1 className="text-center text-4xl text-nowrap mt-4">Number Game!</h1>
+      <div>
+        <div className="flex gap-4 justify-center">
+          {!session ? <LoginButton /> : <SignOutButton />}
+          {image && (
+            <Image
+              className="rounded-md"
+              src={image || "/default-image.png"}
+              alt={session?.user.name ?? "profile pic"}
+              width={40}
+              height={40}
+            />
+          )}
+          <Button variant="outline">
+            <Link href={"/"}>Return to main page</Link>
+          </Button>
+          <ModeToggle />
+        </div>
         {!session && (
-          <div className="flex gap-8 justify-center items-center">
-            <LoginButton />
+          <div className="text-sm text-red-700 text-center">
+            please login to play the game.
           </div>
         )}
-        {session && <SignOutButton />}
-        {image && (
-          <Image
-            className="rounded-md"
-            src={image || "/default-image.png"}
-            alt={session?.user.name ?? "profile pic"}
-            width={40}
-            height={40}
-          />
-        )}
       </div>
-      <div className="flex gap-4 justify-center">
-        <Button variant="outline" className="h-10">
-          <Link href={"/"}>Return to main page</Link>
-        </Button>
-        <ModeToggle />
-      </div>
-      <div className="flex justify-center gap-4">
-        <Button onClick={hearItAgain} variant="outline">
-          Hear it Again
-        </Button>
-        <Button onClick={preloadAllAudio} variant="outline" className="h-10">
-          Preload All Audio
-        </Button>
+      <div>
+        <div className="flex justify-center gap-4">
+          <Button onClick={hearItAgain} variant="outline">
+            Hear it Again
+          </Button>
+          <Button onClick={preloadAllAudio} variant="outline">
+            Preload All Audio
+          </Button>
+        </div>
+        <div className="text-sm text-center">
+          Preload the audio into local storage to make the game run faster.
+        </div>
       </div>
 
       <div className="flex justify-center">
@@ -215,35 +219,33 @@ export default function NumberGame() {
             Stop game
           </Button>
         ) : (
-          <Button onClick={playGame} variant="outline" className="h-10">
+          <Button onClick={playGame} variant="outline">
             Play!
           </Button>
         )}
         <GameMode gameMode={gameMode} setGameMode={setGameMode} />
       </div>
-
-      <section className="size-80 bg-slate-700 flex flex-col mx-auto rounded-md">
-        <div>
-          <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
-            <Input
-              ref={inputRef}
-              className="bg-black"
-              name="guessedNumber"
-              placeholder="type number here"
-              autoFocus
-            ></Input>
-            <Button variant={"outline"} type="submit">
-              Check Answer
-            </Button>
-          </form>
+      <div className="text-sm text-center">
+        Press play, then type the number you hear to practice your Danish{" "}
+      </div>
+      <section className="size-80 bg-slate-700 flex flex-col mx-auto mb-4 rounded-md">
+        <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
+          <Input
+            ref={inputRef}
+            className="bg-black"
+            name="guessedNumber"
+            placeholder="type number here"
+            autoFocus
+          ></Input>
+          <Button variant={"outline"} type="submit">
+            Check Answer
+          </Button>
+        </form>
+        <div className="flex flex-col gap-4 text-center">
+          <div>{correct ? <div>Correct!</div> : <div>False!</div>}</div>
+          <div>Number of correct in a row: {inARow}</div>
+          <div>Best so far: {bestSoFar}</div>
         </div>
-        <div className="place-self-center mt-10">
-          {correct ? <div>Correct!</div> : <div>False!</div>}
-        </div>
-        <div className="place-self-center mt-10">
-          Number of correct in a row: {inARow}
-        </div>
-        <div className="place-self-center mt-10">Best so far: {bestSoFar}</div>
       </section>
     </div>
   );
