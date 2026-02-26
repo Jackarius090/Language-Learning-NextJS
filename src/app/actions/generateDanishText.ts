@@ -11,7 +11,7 @@ export async function generateDanishText(readingLevel: string) {
 
   if (!session || !session.user) {
     console.log("not authenticated, no session found");
-    return;
+    return "please sign in to use APIs";
   }
 
   const purposes = [

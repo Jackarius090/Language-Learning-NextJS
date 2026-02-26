@@ -9,9 +9,9 @@ export async function generateChineseText(readingLevel: string) {
   }
   const session = await getServerSession(authOptions);
 
-  if (!session || !session.user) {
+  if (!session) {
     console.log("not authenticated, no session found");
-    return;
+    return "please sign in to use APIs";
   }
 
   const locations = [

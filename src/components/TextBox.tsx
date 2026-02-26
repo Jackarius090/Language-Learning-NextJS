@@ -64,7 +64,7 @@ export default function TextBox() {
     if (textarea) {
       const selectedText = textarea.value.substring(
         textarea.selectionStart,
-        textarea.selectionEnd
+        textarea.selectionEnd,
       );
       if (!selectedText || selectedText.trim() === "") {
         return;
@@ -166,9 +166,18 @@ export default function TextBox() {
           }
         />
         <div className="flex flex-col gap-3 w-3/12 border-2 rounded-md p-2 mr-20">
-          <span>selected text: {highlightedText}</span>
-          <span>translated text: {translatedText}</span>
-          <span>language: {language}</span>
+          <div>
+            <div className="text-sm">selected text:</div>
+            {highlightedText}
+          </div>
+          <div>
+            <div className="text-sm">translated text:</div>
+            <div>{translatedText}</div>
+          </div>
+          <div>
+            <div className="text-sm">language:</div>
+            <div>{language}</div>
+          </div>
           <div>
             <WordExplanation
               language={language}
