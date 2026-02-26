@@ -15,14 +15,25 @@ export const InfoPopover = () => {
           <Info />
         </Button>
       </PopoverTrigger>
-      <PopoverContent side="bottom" className="PopoverContent">
-        This language learning app helps you translate and understand foreign
-        text effortlessly. Simply paste in any text, highlight a word you don’t
-        recognize, and instantly receive a translation on the right. You can
-        also request example sentences to see the word in context. Every new
-        word you translate is automatically added to your personal dictionary,
-        which you can access anytime by toggling the dictionary view in the top
-        left corner.
+      <PopoverContent side="bottom" className="w-full flex flex-col gap-0.5 ">
+        <h1>A tool to help learning languages</h1>
+        <a
+          className="p-2 mb-4 rounded-md hover:bg-zinc-800"
+          href="https://github.com/Jackarius090/Language-Learning-NextJS"
+        >
+          https://github.com/Jackarius090/Language-Learning-NextJS
+        </a>
+        <div>Made using:</div>
+        <ul className="list-disc pl-6 mb-2">
+          <li>NextJS</li>
+          <li>Shadcn</li>
+          <li>Drizzle</li>
+          <li>Zod</li>
+          <li>Zustand</li>
+          <li>OpenAI API</li>
+          <li>Google translate API</li>
+          <li>Google text to speech API</li>
+        </ul>
       </PopoverContent>
     </Popover>
   );
