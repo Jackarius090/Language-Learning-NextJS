@@ -11,7 +11,7 @@ export async function generateChineseText(readingLevel: string) {
 
   if (!session) {
     console.log("not authenticated, no session found");
-    return;
+    return "Sorry I have run out of OpenAI credits, so this feature does not work. Try adding the sample text and using the translate feature by highlighting a word you don't understand";
   }
 
   const locations = [

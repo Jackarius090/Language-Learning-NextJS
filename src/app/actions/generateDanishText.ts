@@ -11,7 +11,7 @@ export async function generateDanishText(readingLevel: string) {
 
   if (!session) {
     console.log("not authenticated, no session found");
-    return;
+    return "Sorry I have run out of OpenAI credits, so this feature does not work. Try adding the sample text and using the translate feature by highlighting a word you don't understand";
   }
 
   const purposes = [
@@ -184,10 +184,7 @@ export async function generateDanishText(readingLevel: string) {
 
     const data = await response.json();
     const object = data.choices[0].message.content;
-    return (
-      object ||
-      "Sorry I have run out of OpenAI credits, so this feature does not work"
-    );
+    return object || "No content found";
   } catch (error) {
     console.error(error instanceof Error ? error.message : "Unknown error");
     return "Error fetching response";

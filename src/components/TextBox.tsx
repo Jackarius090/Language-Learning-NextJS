@@ -114,6 +114,17 @@ export default function TextBox() {
     setChineseLoading(false);
   }
 
+  function addSampleText() {
+    const sampleText = `Det var en kold morgen i København, og tågen lå som et blødt tæppe over søerne. Anna stod ved vinduet i sin lille lejlighed og kiggede ned på gaden, hvor cyklerne susede forbi som tavse skygger. Hun havde sovet dårligt igen. Drømmene kom altid snigende, når hun mindst ventede det.
+
+På køkkenbordet lå et brev med hendes navn skrevet i sirlig håndskrift. Hun havde fundet det i postkassen aftenen før, men endnu ikke haft modet til at åbne det. Afsenderen var hendes bror, som hun ikke havde talt med i fem år. Fem år med stilhed kan føles som et helt liv.
+
+Anna trak vejret dybt og satte sig ved bordet. Papiret knitrede mellem hendes fingre, da hun forsigtigt brød forseglingen. Ordene var enkle, næsten forsigtige. Han skrev, at han savnede hende. At han fortrød. At han håbede, det ikke var for sent.
+
+Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm glød. Anna mærkede en stille bevægelse i sit bryst, som om noget, der havde været frosset længe, begyndte at tø op. Hun vidste ikke, hvad hun ville svare. Men for første gang i årevis føltes stilheden ikke så tung.`;
+    setTextAreaText(sampleText);
+  }
+
   function handleClearText() {
     setTextAreaText("");
     setLanguage("");
@@ -134,6 +145,9 @@ export default function TextBox() {
       <Button className="m-3" onClick={handleChineseText} variant="outline">
         Generate Chinese Text
         {chineseLoading && <LoaderCircle className="size-5 animate-spin" />}
+      </Button>
+      <Button variant="outline" onClick={addSampleText}>
+        Add Sample Text
       </Button>
 
       <Button className="m-3" onClick={handleClearText} variant="outline">
