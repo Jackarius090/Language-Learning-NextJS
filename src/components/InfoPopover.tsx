@@ -10,9 +10,14 @@ import { Info } from "lucide-react";
 export const InfoPopover = () => {
   return (
     <Popover>
-      <Button asChild variant="outline" size="icon" aria-label="About this app">
+      <Button
+        className="w-9"
+        asChild
+        variant="outline"
+        aria-label="About this app"
+      >
         <PopoverTrigger>
-          <Info />
+          <Info size={36} />
         </PopoverTrigger>
       </Button>
       <PopoverContent side="bottom" className="w-full flex flex-col gap-0.5 ">

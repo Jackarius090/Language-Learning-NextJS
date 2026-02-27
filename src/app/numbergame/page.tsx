@@ -175,8 +175,8 @@ export default function NumberGame() {
               className="rounded-md"
               src={image || "/default-image.png"}
               alt={session?.user.name ?? "profile pic"}
-              width={40}
-              height={40}
+              width={36}
+              height={36}
             />
           )}
           <Button variant="outline">

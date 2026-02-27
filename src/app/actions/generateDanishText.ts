@@ -179,7 +179,7 @@ export async function generateDanishText(readingLevel: string) {
     });
 
     if (!response.ok) {
-      return "Sorry I have run out of OpenAI credits, so this feature does not work";
+      return "Sorry I have run out of OpenAI credits, so this feature does not work. Try adding the sample text and using the translate feature by highlighting a word you don't understand";
     }
 
     const data = await response.json();

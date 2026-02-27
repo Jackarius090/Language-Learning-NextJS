@@ -12,7 +12,6 @@ export default function PlayVoice({
 }) {
   return (
     <Button
-      className="m-3"
       onClick={() => {
         playVoice(highlightedText);
       }}

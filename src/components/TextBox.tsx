@@ -132,32 +132,32 @@ Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm g
 
   return (
     <div className="w-full ">
-      <LevelSelect
-        setreadingLevel={setreadingLevel}
-        readingLevel={readingLevel}
-      />
-
-      <FormatTextBox />
-      <Button className="m-3" onClick={handleDanishText} variant="outline">
-        Generate Danish Text
-        {danishLoading && <LoaderCircle className="size-5 animate-spin" />}
-      </Button>
-      <Button className="m-3" onClick={handleChineseText} variant="outline">
-        Generate Chinese Text
-        {chineseLoading && <LoaderCircle className="size-5 animate-spin" />}
-      </Button>
-      <Button variant="outline" onClick={addSampleText}>
-        Add Sample Text
-      </Button>
-
-      <Button className="m-3" onClick={handleClearText} variant="outline">
-        Clear text area
-      </Button>
-      <PlayVoice
-        isPlaying={isPlaying}
-        playVoice={playVoice}
-        highlightedText={highlightedText}
-      />
+      <div className="flex gap-3 mb-3">
+        <LevelSelect
+          setreadingLevel={setreadingLevel}
+          readingLevel={readingLevel}
+        />
+        <FormatTextBox />
+        <Button onClick={handleDanishText} variant="outline">
+          Generate Danish Text
+          {danishLoading && <LoaderCircle className="size-5 animate-spin" />}
+        </Button>
+        <Button onClick={handleChineseText} variant="outline">
+          Generate Chinese Text
+          {chineseLoading && <LoaderCircle className="size-5 animate-spin" />}
+        </Button>
+        <Button variant="outline" onClick={addSampleText}>
+          Add Sample Text
+        </Button>
+        <Button onClick={handleClearText} variant="outline">
+          Clear text area
+        </Button>
+        <PlayVoice
+          isPlaying={isPlaying}
+          playVoice={playVoice}
+          highlightedText={highlightedText}
+        />
+      </div>
       <div className="flex gap-8 h-full">
         <Textarea
           spellCheck="false"

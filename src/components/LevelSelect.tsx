@@ -17,19 +17,16 @@ export default function LevelSelect({
 }) {
   return (
     <Select onValueChange={setreadingLevel}>
-      <SelectTrigger className="w-[150px] inline-flex m-3 [&>span]:text-white">
-        <SelectValue
-          className="text-blue-400"
-          placeholder={`Reading level ${readingLevel}`}
-        />
+      <SelectTrigger className="w-auto [&>span]:text-white">
+        <SelectValue placeholder={`Reading level ${readingLevel}`} />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="A1">A1</SelectItem>
-        <SelectItem value="A2">A2</SelectItem>
-        <SelectItem value="B1">B1</SelectItem>
-        <SelectItem value="B2">B2</SelectItem>
-        <SelectItem value="C1">C1</SelectItem>
-        <SelectItem value="C2">C2</SelectItem>
+        <SelectItem value="A2">A2 </SelectItem>
+        <SelectItem value="B1">B1 </SelectItem>
+        <SelectItem value="B2">B2 </SelectItem>
+        <SelectItem value="C1">C1 </SelectItem>
+        <SelectItem value="C2">C2 </SelectItem>
       </SelectContent>
     </Select>
   );
