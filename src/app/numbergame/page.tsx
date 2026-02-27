@@ -228,16 +228,16 @@ export default function NumberGame() {
       <div className="text-sm text-center">
         Press play, then type the number you hear to practice your Danish{" "}
       </div>
-      <section className="size-80 bg-slate-700 flex flex-col mx-auto mb-4 rounded-md">
+      <section className="size-80 bg-border flex flex-col mx-auto mb-4 rounded-md">
         <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
           <Input
+            className="dark:border-white"
             ref={inputRef}
-            className="bg-black"
             name="guessedNumber"
             placeholder="type number here"
             autoFocus
           ></Input>
-          <Button variant={"outline"} type="submit">
+          <Button variant="outline" type="submit">
             Check Answer
           </Button>
         </form>

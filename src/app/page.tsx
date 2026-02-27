@@ -28,10 +28,10 @@ export default async function Home() {
         <section className="mx-auto size-full mt-10">
           <div className="flex justify-center items-center">
             <Image
-              className="rounded-md"
+              className="rounded-md size-20"
               alt="logo"
-              width={65}
-              height={65}
+              width={0}
+              height={0}
               src="/logo.svg"
             ></Image>
             <h1 className="inline text-center text-4xl w-1/3 mr-16">
@@ -53,8 +53,8 @@ export default async function Home() {
                   className="rounded-md"
                   src={image || "/default-image.png"}
                   alt={session?.user.name ?? "profile pic"}
-                  width={40}
-                  height={40}
+                  width={36}
+                  height={36}
                 />
               )}
               <ModeToggle />

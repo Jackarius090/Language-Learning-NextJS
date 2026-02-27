@@ -10,11 +10,11 @@ import { Info } from "lucide-react";
 export const InfoPopover = () => {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="About this app">
+      <Button asChild variant="outline" size="icon" aria-label="About this app">
+        <PopoverTrigger>
           <Info />
-        </Button>
-      </PopoverTrigger>
+        </PopoverTrigger>
+      </Button>
       <PopoverContent side="bottom" className="w-full flex flex-col gap-0.5 ">
         <h1>A tool to help learning languages</h1>
         <a
