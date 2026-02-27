@@ -22,6 +22,7 @@ export default function NumberGame() {
   const [timeLeft, setTimeLeft] = useState(timeAllowed);
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
+  const [showTrueFalse, setShowTrueFalse] = useState(false);
 
   const { data: session } = useSession();
   let image = null;
@@ -133,6 +134,7 @@ export default function NumberGame() {
   }, [timeAllowed, timeLeft, playGame]);
 
   function checkAnswer(e: React.FormEvent<HTMLFormElement>) {
+    setShowTrueFalse(true);
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const numberToCheck = formData.get("guessedNumber") as string;
@@ -160,6 +162,7 @@ export default function NumberGame() {
   }
 
   function stopGame() {
+    setShowTrueFalse(false);
     setIsActive(false);
     setTimeLeft(timeAllowed);
   }
@@ -226,23 +229,25 @@ export default function NumberGame() {
         <GameMode gameMode={gameMode} setGameMode={setGameMode} />
       </div>
       <div className="text-sm text-center">
-        Press play, then type the number you hear to practice your Danish{" "}
+        Press play, then type the number you hear to practice your Danish
       </div>
       <section className="size-80 bg-border flex flex-col mx-auto mb-4 rounded-md">
         <form className="flex gap-4 m-3" onSubmit={checkAnswer}>
           <Input
-            className="dark:border-white"
+            className="outline"
             ref={inputRef}
             name="guessedNumber"
             placeholder="type number here"
             autoFocus
           ></Input>
-          <Button variant="outline" type="submit">
+          <Button disabled={!isActive} variant="outline" type="submit">
             Check Answer
           </Button>
         </form>
         <div className="flex flex-col gap-4 text-center">
-          <div>{correct ? <div>Correct!</div> : <div>False!</div>}</div>
+          {showTrueFalse && (
+            <div>{correct ? <div>Correct!</div> : <div>False!</div>}</div>
+          )}
           <div>Number of correct in a row: {inARow}</div>
           <div>Best so far: {bestSoFar}</div>
         </div>
