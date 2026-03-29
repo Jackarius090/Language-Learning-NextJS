@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import LoginButton from "@/components/LoginButton";
 import SignOutButton from "@/components/SignOutButton";
 import Image from "next/image";
+import { LoaderCircle } from "lucide-react";
 
 export default function NumberGame() {
   const [correct, setCorrect] = useState(false);
@@ -23,6 +24,7 @@ export default function NumberGame() {
   const [isActive, setIsActive] = useState(false);
   const [gameMode, setGameMode] = useState("Cardinals");
   const [showTrueFalse, setShowTrueFalse] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { data: session } = useSession();
   let image = null;
@@ -35,6 +37,7 @@ export default function NumberGame() {
   async function preloadAllAudio() {
     if (typeof window === "undefined") return;
 
+    setLoading(true);
     for (let i = 0; i < 100; i++) {
       const numberStr = i.toString();
 
@@ -48,7 +51,7 @@ export default function NumberGame() {
         console.error(`Error caching ${numberStr}:`, err);
       }
     }
-
+    setLoading(false);
     alert("Danish number audios have been cached");
   }
 
@@ -199,7 +202,8 @@ export default function NumberGame() {
             Hear it Again
           </Button>
           <Button onClick={preloadAllAudio} variant="outline">
-            Preload All Audio
+            Preload All Audio{" "}
+            {loading && <LoaderCircle className="size-5 animate-spin" />}
           </Button>
         </div>
         <div className="text-sm text-center">
