@@ -17,7 +17,7 @@ export default function LevelSelect({
 }) {
   return (
     <Select onValueChange={setreadingLevel}>
-      <SelectTrigger className="w-auto [&>span]:text-white">
+      <SelectTrigger className="w-auto data-[placeholder]:text-foreground">
         <SelectValue placeholder={`Reading level ${readingLevel}`} />
       </SelectTrigger>
       <SelectContent>
