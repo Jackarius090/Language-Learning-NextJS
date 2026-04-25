@@ -122,6 +122,7 @@ På køkkenbordet lå et brev med hendes navn skrevet i sirlig håndskrift. Hun 
 Anna trak vejret dybt og satte sig ved bordet. Papiret knitrede mellem hendes fingre, da hun forsigtigt brød forseglingen. Ordene var enkle, næsten forsigtige. Han skrev, at han savnede hende. At han fortrød. At han håbede, det ikke var for sent.
 
 Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm glød. Anna mærkede en stille bevægelse i sit bryst, som om noget, der havde været frosset længe, begyndte at tø op. Hun vidste ikke, hvad hun ville svare. Men for første gang i årevis føltes stilheden ikke så tung.`;
+    detectLanguage(sampleText);
     setTextAreaText(sampleText);
   }
 
