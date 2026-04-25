@@ -17,7 +17,6 @@ export default async function Home() {
   let image = null;
   if (session) {
     image = session.user.image;
-    console.log(session);
   }
 
   return (
