@@ -14,6 +14,7 @@ import { textToSpeech } from "@/app/actions/textToSpeech";
 import { generateChineseText } from "@/app/actions/generateChineseText";
 import { FormatTextBox } from "./FormatTextBox";
 import { useTextStyleStore } from "@/lib/textStyleStore";
+import AddNewspaperArticle from "./AddNewspaperArticle";
 
 export default function TextBox() {
   const [highlightedText, setHighlightedText] = useState("");
@@ -150,6 +151,7 @@ Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm g
         <Button variant="outline" onClick={addSampleText}>
           Add Sample Text
         </Button>
+        <AddNewspaperArticle />
         <Button onClick={handleClearText} variant="outline">
           Clear text area
         </Button>
