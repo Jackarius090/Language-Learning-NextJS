@@ -151,7 +151,7 @@ Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm g
         <Button variant="outline" onClick={addSampleText}>
           Add Sample Text
         </Button>
-        <AddNewspaperArticle />
+        <AddNewspaperArticle setTextAreaText={setTextAreaText} />
         <Button onClick={handleClearText} variant="outline">
           Clear text area
         </Button>
