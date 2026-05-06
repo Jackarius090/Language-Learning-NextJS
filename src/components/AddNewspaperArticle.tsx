@@ -1,13 +1,13 @@
 import { Button } from "./ui/button";
 import { Dispatch, SetStateAction } from "react";
 import getNewsArticle from "@/app/actions/getNewsArticle";
+const text = await getNewsArticle();
 
 export default async function AddNewspaperArticle({
   setTextAreaText,
 }: {
   setTextAreaText: Dispatch<SetStateAction<string>>;
 }) {
-  const text = await getNewsArticle();
   function addText() {
     setTextAreaText(text);
   }
