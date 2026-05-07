@@ -16,7 +16,7 @@ import { FormatTextBox } from "./FormatTextBox";
 import { useTextStyleStore } from "@/lib/textStyleStore";
 import AddNewspaperArticle from "./AddNewspaperArticle";
 
-export default function TextBox() {
+export default function TextBox({ text }: { text: string }) {
   const [highlightedText, setHighlightedText] = useState("");
   const [readingLevel, setreadingLevel] = useState("B1");
   const [translatedText, setTranslatedText] = useState("");
@@ -151,7 +151,7 @@ Udenfor brød solen langsomt gennem tågen, og lyset ramte væggen med en varm g
         <Button variant="outline" onClick={addSampleText}>
           Add Sample Text
         </Button>
-        <AddNewspaperArticle setTextAreaText={setTextAreaText} />
+        <AddNewspaperArticle setTextAreaText={setTextAreaText} text={text} />
         <Button onClick={handleClearText} variant="outline">
           Clear text area
         </Button>

@@ -11,6 +11,7 @@ import { getServerSession } from "next-auth";
 import SignOutButton from "@/components/SignOutButton";
 import TextBox from "@/components/TextBox";
 import { InfoPopover } from "@/components/InfoPopover";
+import getNewsArticle from "@/app/actions/getNewsArticle";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -18,6 +19,9 @@ export default async function Home() {
   if (session) {
     image = session.user.image;
   }
+
+  const response = await getNewsArticle();
+  const text = response.articles[0].content;
 
   return (
     <>
@@ -61,7 +65,7 @@ export default async function Home() {
             </div>
           </div>
           <div className="flex gap-10 mt-20 mb-5">
-            <TextBox />
+            <TextBox text={text} />
           </div>
         </section>
       </SidebarProvider>

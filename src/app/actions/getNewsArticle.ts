@@ -10,7 +10,7 @@ export default async function getNewsArticle() {
   //   }
 
   const response = await fetch(
-    `https://api.perigon.io/v1/articles/all?language=en&country=dk&sortBy=date&showReprints=false&showNumResults=true&page=0&size=25&apiKey=${process.env.NewsArticleAPIKey}`,
+    `https://api.perigon.io/v1/articles/all?language=da&country=dk&sortBy=date&showReprints=false&showNumResults=true&page=0&size=25&apiKey=${process.env.NewsArticleAPIKey}`,
   );
   const text = await response.json();
   console.log(text);
