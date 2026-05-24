@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import GameTimerButtons from "@/components/GameTimerButtons";
 
 export default function NumberGameTimer({
@@ -14,18 +14,41 @@ export default function NumberGameTimer({
   isActive: boolean;
   setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  useEffect(() => {
-    let interval: null | NodeJS.Timeout = null;
+  const endTimeRef = useRef<number | null>(null);
 
-    if (isActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((timeLeft) => timeLeft - 50);
-      }, 50);
-    } else if (timeLeft === 0) {
-      setIsActive(false);
+  useEffect(() => {
+    if (!isActive) return;
+    if (!endTimeRef.current) {
+      endTimeRef.current = Date.now() + timeLeft;
     }
-    if (interval) return () => clearInterval(interval);
-  }, [isActive, timeLeft, setTimeLeft, setIsActive]);
+
+    const interval = setInterval(() => {
+      const remaining = Math.max(0, endTimeRef.current! - Date.now());
+
+      setTimeLeft(remaining);
+
+      if (remaining <= 0) {
+        clearInterval(interval);
+        setIsActive(false);
+        endTimeRef.current = null;
+      }
+    }, 16);
+
+    return () => clearInterval(interval);
+  }, [isActive, setTimeLeft, setIsActive, timeLeft]);
+
+  // useEffect(() => {
+  //   let interval: null | NodeJS.Timeout = null;
+
+  //   if (isActive && timeLeft > 0) {
+  //     interval = setInterval(() => {
+  //       setTimeLeft((timeLeft) => timeLeft - 50);
+  //     }, 50);
+  //   } else if (timeLeft === 0) {
+  //     setIsActive(false);
+  //   }
+  //   if (interval) return () => clearInterval(interval);
+  // }, [isActive, timeLeft, setTimeLeft, setIsActive]);
 
   const formatTime = (milliseconds: number) => {
     const secs = Math.floor(milliseconds / 1000);
@@ -36,8 +59,8 @@ export default function NumberGameTimer({
   };
 
   return (
-    <div className="countdown-container flex col gap-4 items-center">
-      <div className="time-display text-4xl font-bold">
+    <div className="flex col gap-4 items-center">
+      <div className="tabular-nums text-4xl font-bold">
         {formatTime(timeLeft)}
       </div>
       <div>
