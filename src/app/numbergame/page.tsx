@@ -25,6 +25,7 @@ export default function NumberGame() {
   const [gameMode, setGameMode] = useState("Cardinals");
   const [showTrueFalse, setShowTrueFalse] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [audioPreloaded, setAudioPreloaded] = useState(false);
 
   const { data: session } = useSession();
   let image = null;
@@ -33,6 +34,23 @@ export default function NumberGame() {
   }
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // useEffect checks if audio is preloaded.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let allCached = true;
+
+    for (let i = 0; i < 100; i++) {
+      const exists = localStorage.getItem(`tts-da-${i}`);
+
+      if (!exists) {
+        allCached = false;
+        break;
+      }
+    }
+
+    setAudioPreloaded(allCached);
+  }, []);
 
   async function preloadAllAudio() {
     if (typeof window === "undefined") return;
@@ -51,6 +69,7 @@ export default function NumberGame() {
         console.error(`Error caching ${numberStr}:`, err);
       }
     }
+    setAudioPreloaded(true);
     setLoading(false);
     alert("Danish number audios have been cached");
   }
@@ -206,9 +225,11 @@ export default function NumberGame() {
             {loading && <LoaderCircle className="size-5 animate-spin" />}
           </Button>
         </div>
-        <div className="text-sm text-center">
-          Preload the audio into local storage to make the game run faster.
-        </div>
+        {!audioPreloaded && (
+          <div className="text-sm text-center">
+            Preload the audio into local storage to make the game run faster.
+          </div>
+        )}
       </div>
 
       <div className="flex justify-center">
